@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Custom/Timeline", fileName = "TimeLine", order = 0)]
 public class TimeLine : ScriptableObject
@@ -10,5 +11,10 @@ public class TimeLine : ScriptableObject
     {
         return steps;
     }
-    
+
+    public float TotalTime()
+    {
+        //get the most high time from all steps
+        return steps.Max(step => step.GetTime());
+    }
 }
