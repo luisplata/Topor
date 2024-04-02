@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -21,9 +22,9 @@ public class Map : MonoBehaviour, IMap
     {
         return (from pointToTopo in pointToTopos where pointToTopo.Position == position select pointToTopo.gameObject).FirstOrDefault();
     }
-    public GameObject GetPointToFruitByPosition(int position)
+    public PointToFruit GetPointToFruitByPosition(int position)
     {
-        return (from pointToFruit in pointToFruits where pointToFruit.Position == position select pointToFruit.gameObject).FirstOrDefault();
+        return (from pointToFruit in pointToFruits where pointToFruit.Position == position select pointToFruit).FirstOrDefault();
     }
 
     public int GetRandomPositionToTopo()
@@ -51,6 +52,11 @@ public class Map : MonoBehaviour, IMap
     public int GetFruits()
     {
         return pointToFruits.Length;
+    }
+
+    public PointToFruit[] GetAllFruits()
+    {
+        return pointToFruits;
     }
 }
 

@@ -10,10 +10,11 @@ public class FactoryOfFruits : MonoBehaviour
         _toposFactory = new FruitsFactory(Instantiate(toposConfiguration));
     }
     
-    public Fruit SpawnFruit(string id, GameObject parent)
+    public Fruit SpawnFruit(string id, PointToFruit parent)
     {
         var fruit = _toposFactory.Create(id);
         fruit.Configure(parent);
+        parent.SetFruit(fruit);
         return fruit;
     }
 }

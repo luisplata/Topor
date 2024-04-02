@@ -8,6 +8,8 @@ public class FruitsMono : MonoBehaviour
     [SerializeField] private RelationFruit[] relationFruits;
     [SerializeField] private Map map;
     private TeaTime _spawn;
+    private bool _allFruitsDead;
+    public bool AllFruitAreDead => _allFruitsDead;
 
     public bool Finished { get; private set; }
 
@@ -27,7 +29,8 @@ public class FruitsMono : MonoBehaviour
                 Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity);
                 for (var i = 0; i < relationFruit.quantity; i++)
                 {
-                    factoryOfFruits.SpawnFruit(relationFruit.fruitId, map.GetPointToFruitByPosition(map.GetRandomPositionToFruit()));
+                    var fruit = factoryOfFruits.SpawnFruit(relationFruit.fruitId, map.GetPointToFruitByPosition(map.GetRandomPositionToFruit()));
+                    fruit.OnFruitDie += FruitOnOnFruitDie;
                 }
             }
             t.Break();
@@ -35,6 +38,12 @@ public class FruitsMono : MonoBehaviour
         {
             Finished = true;
         });
+    }
+
+    private void FruitOnOnFruitDie()
+    {
+        //validate if all fruits are dead
+        _allFruitsDead = map.GetAllFruits().All(pointToFruit => pointToFruit.GetFruit().AreDead);
     }
 
     private void CalculateFruitsPercentage()

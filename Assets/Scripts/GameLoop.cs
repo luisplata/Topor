@@ -57,21 +57,25 @@ public class GameLoop : MonoBehaviour, IGameLoop
         {
             //Check condition
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Condition");
-        }).Wait(()=>timeLineMono.GameIsEnded).Add(() =>
+        }).Wait(()=>timeLineMono.GameIsEnded || fruitsMono.AllFruitAreDead).Add(() =>
         {
             _end.Play();
         });
         
         _end = this.tt().Pause().Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: End");
+            if (timeLineMono.GameIsEnded)
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Win");
+            }else if (fruitsMono.AllFruitAreDead)
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Lose");
+            }
             uiController.ShowEndGamePanel(true);
         }).Wait(()=>uiController.SelectedEndGame).Add(() =>
         {
             uiController.HideEndGamePanel();
-            //show animation or whatever
             uiController.ShowEndGameAnimation();
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: End Clicked");
         }).Add(timeAfterEnd).Add(() =>
         {
             SceneManager.LoadScene(0);

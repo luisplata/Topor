@@ -145,12 +145,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a
   damage: 10
-  timeToInit: 1
-  timeToSearch: 2
+  timeToInit: 0.5
+  timeToSearch: 0.5
   timeToAction: 1
+  timeToBite: 0.5
   timeToEnd: 1
   timeToDead: 1
   distanceToSearch: 1
+  biteCount: 1
   touched: 0
   spriteRenderer: {fileID: 8466154556283382728}
   colorToInit: {r: 0.4575472, g: 0.6253757, b: 1, a: 1}
