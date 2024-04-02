@@ -9,9 +9,11 @@ public abstract class Topo : MonoBehaviour
     [SerializeField] protected float timeToInit;
     [SerializeField] protected float timeToSearch;
     [SerializeField] protected float timeToAction;
+    [SerializeField] protected float timeToBite;
     [SerializeField] protected float timeToEnd;
     [SerializeField] protected float timeToDead;
     [SerializeField] protected float distanceToSearch;
+    [SerializeField] protected int biteCount;
     [ReadOnly][SerializeField] protected bool touched;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Color colorToInit, colorToSearch, colorToAction, colorToEnd, colorToDead;
@@ -81,16 +83,15 @@ public abstract class Topo : MonoBehaviour
                 _dead.Play();
                 t.Break();
             }
+            else if(_deltaTimeLocal >= timeToBite && biteCount > 0)
+            {
+                _fruitSelected?.Bite(damage);
+                biteCount--;
+            }
             else if (_deltaTimeLocal >= timeToAction)
             {
                 _end.Play();
                 t.Break();
-            }
-        }).Add(() =>
-        {
-            if (!touched)
-            {
-                _fruitSelected.Bite(damage);
             }
         });
         
@@ -191,6 +192,11 @@ public abstract class Topo : MonoBehaviour
         var fruits = new[] {top, bottom, left, right};
         //filter nulls
         fruits = Array.FindAll(fruits, fruit => fruit != null);
+        if (fruits.Length == 0)
+        {
+            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} didn't find any fruit");
+            return;
+        }
         _fruitSelected = fruits[UnityEngine.Random.Range(0, fruits.Length)];
     }
     
