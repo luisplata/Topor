@@ -1,13 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIController : MonoBehaviour, IUiControllerService
 {
     [SerializeField] private GameObject startPanel, endGamePanel, animationPanel;
     [SerializeField] private Button startButton, endButton;
     private IGameLoop _gameLoop;
     public bool SelectedEndGame { get; private set; }
     public bool SelectedStartGame { get; private set; }
+
+    private void Start()
+    {
+        ServiceLocator.Instance.RegisterService<IUiControllerService>(this);
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.Instance.UnregisterService<IUiControllerService>();
+    }
 
     public void Configure(IGameLoop gameLoop)
     {
@@ -59,4 +70,8 @@ public class UIController : MonoBehaviour
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
     }
+}
+
+public interface IUiControllerService
+{
 }

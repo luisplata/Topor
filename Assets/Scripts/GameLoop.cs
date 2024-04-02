@@ -5,6 +5,8 @@ public class GameLoop : MonoBehaviour, IGameLoop
 {
     [SerializeField] private UIController uiController;
     [SerializeField] private TimeLineMono timeLineMono;
+    [SerializeField] private FruitsMono fruitsMono;
+    [SerializeField] private float timeAfterEnd;
     private TeaTime _idle, _ready, _game, _condition, _end;
 
     void Start()
@@ -21,7 +23,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         {
             //show animation or whatever
             uiController.ShowStartPanel();
-            Debug.Log("GameLoop: Idle");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Idle");
         }).Add(() =>
         {
             _ready.Play();
@@ -30,8 +32,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         _ready = this.tt().Pause().Add(() =>
         {
             //configure all components
-            Debug.Log("GameLoop: Ready");
-            Debug.Log($"GameLoop: uiController.SelectedStartGame {uiController.SelectedStartGame}");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Ready");
         }).Wait(()=>uiController.SelectedStartGame).Add(() =>
         {
             _game.Play();
@@ -40,7 +41,10 @@ public class GameLoop : MonoBehaviour, IGameLoop
         _game = this.tt().Pause().Add(() =>
         {
             uiController.HideStartPanel();
-            Debug.Log("GameLoop: Game");
+            fruitsMono.StartToSpawn();
+        }).Wait(()=>fruitsMono.Finished).Add(() =>
+        {
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Game");
             timeLineMono.StartCount();
         }).Add(() =>
         {
@@ -50,7 +54,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         _condition = this.tt().Pause().Add(() =>
         {
             //Check condition
-            Debug.Log("GameLoop: Condition");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Condition");
         }).Wait(()=>timeLineMono.GameIsEnded).Add(() =>
         {
             _end.Play();
@@ -58,16 +62,15 @@ public class GameLoop : MonoBehaviour, IGameLoop
         
         _end = this.tt().Pause().Add(() =>
         {
-            Debug.Log("GameLoop: End");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: End");
             uiController.ShowEndGamePanel(true);
-            Debug.Log($"GameLoop: uiController.SelectedEndGame {uiController.SelectedEndGame}");
         }).Wait(()=>uiController.SelectedEndGame).Add(() =>
         {
             uiController.HideEndGamePanel();
             //show animation or whatever
             uiController.ShowEndGameAnimation();
-            Debug.Log("GameLoop: End Clicked");
-        }).Add(10).Add(() =>
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: End Clicked");
+        }).Add(timeAfterEnd).Add(() =>
         {
             SceneManager.LoadScene(0);
         });
