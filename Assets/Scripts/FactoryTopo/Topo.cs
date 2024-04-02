@@ -5,16 +5,19 @@ using UnityEngine;
 public abstract class Topo : MonoBehaviour
 {
     [SerializeField] protected string id;
+    [SerializeField] protected float damage;
     [SerializeField] protected float timeToInit;
     [SerializeField] protected float timeToSearch;
     [SerializeField] protected float timeToAction;
     [SerializeField] protected float timeToEnd;
     [SerializeField] protected float timeToDead;
+    [SerializeField] protected float distanceToSearch;
     [ReadOnly][SerializeField] protected bool touched;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Color colorToInit, colorToSearch, colorToAction, colorToEnd, colorToDead;
     private float _deltaTimeLocal;
     public Action OnTopoDie;
+    [SerializeField] private Fruit _fruitSelected;
     
     public float TotalTime => timeToInit + timeToSearch + timeToAction + timeToEnd + timeToDead; 
     public string Id => id;
@@ -29,6 +32,7 @@ public abstract class Topo : MonoBehaviour
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Idle start animation");
             spriteRenderer.color = colorToInit;
             _deltaTimeLocal = 0;
+            FindFruits();
         }).Loop(t =>
         {
             _deltaTimeLocal += t.deltaTime;
@@ -82,6 +86,12 @@ public abstract class Topo : MonoBehaviour
                 _end.Play();
                 t.Break();
             }
+        }).Add(() =>
+        {
+            if (!touched)
+            {
+                _fruitSelected.Bite(damage);
+            }
         });
         
         _end = this.tt().Pause().Add(() =>
@@ -105,7 +115,6 @@ public abstract class Topo : MonoBehaviour
         _destroyed = this.tt().Pause().Add(() =>
         {
             OnTopoDie?.Invoke();
-            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Destroyed");
             transform.SetParent(null);
             gameObject.SetActive(false);
         });
@@ -119,14 +128,89 @@ public abstract class Topo : MonoBehaviour
         ConfigureTeaTime();
     }
 
+    private void FindFruits()
+    {
+        //shot 2D raycasts to find fruits in top, bottom, left and right
+        //shot up
+        
+        Fruit top = null, bottom = null, left = null, right = null;
+        
+        //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} is searching for fruits");
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.up * distanceToSearch);
+        foreach (var raycastHit2D in hit)
+        {
+            if (raycastHit2D.collider.CompareTag("Fruit"))
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>()
+                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
+                top = raycastHit2D.collider.GetComponent<Fruit>();
+                break;
+            }
+        }
+        
+        //shot down
+        hit = Physics2D.RaycastAll(transform.position, Vector2.down * distanceToSearch);
+        foreach (var raycastHit2D in hit)
+        {
+            if (raycastHit2D.collider.CompareTag("Fruit"))
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>()
+                    .DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
+                bottom = raycastHit2D.collider.GetComponent<Fruit>();
+                break;
+            }
+        }
+        
+        //shot left
+        hit = Physics2D.RaycastAll(transform.position, Vector2.left * distanceToSearch);
+        foreach (var raycastHit2D in hit)
+        {
+            if (raycastHit2D.collider.CompareTag("Fruit"))
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>()
+                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
+                left = raycastHit2D.collider.GetComponent<Fruit>();
+                break;
+            }
+        }
+        
+        //shot right
+        hit = Physics2D.RaycastAll(transform.position, Vector2.right * distanceToSearch);
+        foreach (var raycastHit2D in hit)
+        {
+            if (raycastHit2D.collider.CompareTag("Fruit"))
+            {
+                ServiceLocator.Instance.GetService<IDebugCustom>()
+                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
+                right = raycastHit2D.collider.GetComponent<Fruit>();
+                break;
+            }
+        }
+        
+        //get random fruit to attack
+        var fruits = new[] {top, bottom, left, right};
+        //filter nulls
+        fruits = Array.FindAll(fruits, fruit => fruit != null);
+        _fruitSelected = fruits[UnityEngine.Random.Range(0, fruits.Length)];
+    }
+    
+
     public void Touch()
     {
-        ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} touched");
         touched = true;
     }
 
     public void StartTopo()
     {
         _idle.Play();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector2.up * distanceToSearch);
+        Gizmos.DrawRay(transform.position, Vector2.down * distanceToSearch);
+        Gizmos.DrawRay(transform.position, Vector2.left * distanceToSearch);
+        Gizmos.DrawRay(transform.position, Vector2.right * distanceToSearch);
     }
 }

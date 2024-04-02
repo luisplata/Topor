@@ -47,7 +47,6 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
         foreach (var step in timeLine.GetSteps())
         {
             if (!step.IsDead) return;
-            Debug.Log(step.GetTime() + " - " + step.IsDead);
         }
         _weAreGaming = false;
         ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("All topos are dead");

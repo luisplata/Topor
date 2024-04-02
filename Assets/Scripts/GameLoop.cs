@@ -13,7 +13,6 @@ public class GameLoop : MonoBehaviour, IGameLoop
     {
         ConfigureButtons();
         ConfigureGameLoop();
-        timeLineMono.Configure(this);
         _idle.Play();
     }
 
@@ -43,6 +42,9 @@ public class GameLoop : MonoBehaviour, IGameLoop
             uiController.HideStartPanel();
             fruitsMono.StartToSpawn();
         }).Wait(()=>fruitsMono.Finished).Add(() =>
+        {
+            timeLineMono.Configure(this);
+        }).Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Game");
             timeLineMono.StartCount();

@@ -469,6 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 9
+  hasFruit: 0
 --- !u!1 &129391644
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 12
+  hasFruit: 0
 --- !u!1 &199081643
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 13
+  hasFruit: 0
 --- !u!1 &350003140
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 21
+  hasFruit: 0
 --- !u!1 &373126493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 8
+  hasFruit: 0
 --- !u!1 &506673293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 18
+  hasFruit: 0
 --- !u!1 &561336074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,6 +1407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 14
+  hasFruit: 0
 --- !u!1 &575223870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,6 +1453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 22
+  hasFruit: 0
 --- !u!1 &612441757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,6 +1934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 6
+  hasFruit: 0
 --- !u!1 &766793844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,6 +2271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 1
+  hasFruit: 0
 --- !u!1 &919244592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,6 +2366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 11
+  hasFruit: 0
 --- !u!1 &982684252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,6 +2510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 3
+  hasFruit: 0
 --- !u!1 &1040133730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2544,6 +2556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 10
+  hasFruit: 0
 --- !u!1 &1075928812
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,6 +2834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 0
+  hasFruit: 0
 --- !u!1 &1249790151
 GameObject:
   m_ObjectHideFlags: 0
@@ -2866,6 +2880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 19
+  hasFruit: 0
 --- !u!1 &1281048141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2960,6 +2975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 4
+  hasFruit: 0
 --- !u!1 &1302295879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,6 +3021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 2
+  hasFruit: 0
 --- !u!1 &1328911158
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,6 +3285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 16
+  hasFruit: 0
 --- !u!1 &1364166694
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,6 +3331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 17
+  hasFruit: 0
 --- !u!1 &1384295422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3925,6 +3944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 5
+  hasFruit: 0
 --- !u!1 &1597205894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4068,6 +4088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 7
+  hasFruit: 0
 --- !u!1 &1648136271
 GameObject:
   m_ObjectHideFlags: 0
@@ -4211,6 +4232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 15
+  hasFruit: 0
 --- !u!1 &1768012318
 GameObject:
   m_ObjectHideFlags: 0
@@ -4311,6 +4333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 20
+  hasFruit: 0
 --- !u!1 &1786875864
 GameObject:
   m_ObjectHideFlags: 0
@@ -4687,6 +4710,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factoryOfFruits: {fileID: 1821779915}
+  relationFruits:
+  - fruitId: tomato
+    percentage: 18
+    quantity: 0
+  - fruitId: tomato
+    percentage: 65
+    quantity: 0
   map: {fileID: 1821779913}
 --- !u!114 &1821779915
 MonoBehaviour:
@@ -4893,6 +4923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 23
+  hasFruit: 0
 --- !u!1 &1996973851
 GameObject:
   m_ObjectHideFlags: 0

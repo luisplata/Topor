@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058d713649c04c1c8fc10ce6b5e42144, type: 3}
   m_Name: FruitsConfiguration
   m_EditorClassIdentifier: 
-  fruits: []
+  fruits:
+  - {fileID: 4180357602131543208, guid: c29e7ad7a7bfc614aaabe3f07ad356f7, type: 3}

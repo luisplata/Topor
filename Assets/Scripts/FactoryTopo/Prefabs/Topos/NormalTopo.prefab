@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1454210941752496451}
   m_Layer: 0
   m_Name: NormalTopo
-  m_TagString: Untagged
+  m_TagString: Topo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,11 +144,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: a
+  damage: 10
   timeToInit: 1
   timeToSearch: 2
   timeToAction: 1
   timeToEnd: 1
   timeToDead: 1
+  distanceToSearch: 1
   touched: 0
   spriteRenderer: {fileID: 8466154556283382728}
   colorToInit: {r: 0.4575472, g: 0.6253757, b: 1, a: 1}
@@ -156,3 +158,4 @@ MonoBehaviour:
   colorToAction: {r: 1, g: 0.3443396, b: 0.3443396, a: 1}
   colorToEnd: {r: 0.9854012, g: 1, b: 0.23113209, a: 1}
   colorToDead: {r: 0, g: 0, b: 0, a: 1}
+  _fruitSelected: {fileID: 0}

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3079393174944211614}
   - component: {fileID: 5750123190731142458}
   - component: {fileID: 4180357602131543208}
+  - component: {fileID: -8333342649087068195}
   m_Layer: 0
   m_Name: Fruit
-  m_TagString: Untagged
+  m_TagString: Fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4741832750742741104}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.05, y: 3.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -98,3 +99,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: tomato
+  life: 5
+  timeToidle: 1
+  timeToGame: 0
+  timeToBite: 1
+  timeToDead: 1
+  timeToDestroyed: 0
+  spriteRenderer: {fileID: 5750123190731142458}
+  colorToGame: {r: 1, g: 0, b: 0, a: 1}
+  colorToDead: {r: 0, g: 0, b: 0, a: 1}
+  colorToDestroyed: {r: 0, g: 0, b: 0, a: 1}
+  colorToBite: {r: 0.993973, g: 1, b: 0, a: 1}
+  colorToIdle: {r: 0, g: 1, b: 0.0029821396, a: 1}
+--- !u!61 &-8333342649087068195
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4741832750742741104}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.2, y: 0.2}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.2}
+  m_EdgeRadius: 0
