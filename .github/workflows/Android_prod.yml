@@ -8,6 +8,7 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
+    environment: production
     # This stops builds that are in-progress once a new commit comes in
     concurrency: 
       group: unity-build-android
