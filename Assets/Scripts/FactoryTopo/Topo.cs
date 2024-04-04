@@ -6,6 +6,7 @@ public abstract class Topo : MonoBehaviour
 {
     [SerializeField] protected string id;
     [SerializeField] protected float damage;
+    [SerializeField] protected float timeToOutOfGround;
     [SerializeField] protected float timeToInit;
     [SerializeField] protected float timeToSearch;
     [SerializeField] protected float timeToAction;
@@ -14,25 +15,36 @@ public abstract class Topo : MonoBehaviour
     [SerializeField] protected float timeToDead;
     [SerializeField] protected float distanceToSearch;
     [SerializeField] protected int biteCount;
-    [ReadOnly][SerializeField] protected bool touched;
-    [SerializeField] protected SpriteRenderer spriteRenderer;
-    [SerializeField] protected Color colorToInit, colorToSearch, colorToAction, colorToEnd, colorToDead;
+    [SerializeField] protected AnimationControllerTopo animationControllerTopo;
+    protected bool touched;
     private float _deltaTimeLocal;
     public Action OnTopoDie;
-    [SerializeField] private Fruit _fruitSelected;
+    private Fruit _fruitSelected;
+    private Vector2 direction;
     
     public float TotalTime => timeToInit + timeToSearch + timeToAction + timeToEnd + timeToDead; 
     public string Id => id;
     
-    private TeaTime _idle, _search, _action, _end, _dead, _destroyed;
+    private TeaTime _idle, _search, _action, _end, _dead, _destroyed, _outOfGround;
+    private PointToTopo _parent;
+    private bool canOutGround = true;
 
     private void ConfigureTeaTime()
     {
+        _outOfGround = this.tt().Pause().Add(() =>
+        {
+            canOutGround = _parent.CanOutOfGround();
+            if(!canOutGround)
+                timeToOutOfGround = 0;
+        }).Add(timeToOutOfGround).Add(() =>
+        {
+            _idle.Play();
+        });
         _idle = this.tt().Pause().Add(() =>
         {
             touched = false;
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Idle start animation");
-            spriteRenderer.color = colorToInit;
+            animationControllerTopo.PlayRise();
             _deltaTimeLocal = 0;
             FindFruits();
         }).Loop(t =>
@@ -54,7 +66,7 @@ public abstract class Topo : MonoBehaviour
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Search");
             _deltaTimeLocal = 0;
-            spriteRenderer.color = colorToSearch;
+            animationControllerTopo.PlaySearch();
         }).Loop(t =>
         {
             _deltaTimeLocal += t.deltaTime;
@@ -74,7 +86,7 @@ public abstract class Topo : MonoBehaviour
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Action");
             _deltaTimeLocal = 0;
-            spriteRenderer.color = colorToAction;
+            animationControllerTopo.PlayAction(direction);
         }).Loop(t =>
         {
             _deltaTimeLocal += t.deltaTime;
@@ -98,7 +110,7 @@ public abstract class Topo : MonoBehaviour
         _end = this.tt().Pause().Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: End");
-            spriteRenderer.color = colorToEnd;
+            animationControllerTopo.PlayEnd();
         }).Add(timeToEnd).Add(() =>
         {
             _destroyed.Play();
@@ -107,7 +119,7 @@ public abstract class Topo : MonoBehaviour
         _dead = this.tt().Pause().Add(() =>
         {
             ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Dead");
-            spriteRenderer.color = colorToDead;
+            animationControllerTopo.PlayDead();
         }).Add(timeToDead).Add(() =>
         {
             _destroyed.Play();
@@ -121,18 +133,21 @@ public abstract class Topo : MonoBehaviour
         });
     }
 
-    public void Configure(GameObject parent)
+    public void Configure(PointToTopo parent)
     {
         transform.SetParent(parent.transform);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         ConfigureTeaTime();
+        _parent = parent;
     }
 
     private void FindFruits()
     {
         //shot 2D raycasts to find fruits in top, bottom, left and right
         //shot up
+        
+        direction = Vector2.zero;
         
         Fruit top = null, bottom = null, left = null, right = null;
         
@@ -145,6 +160,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
                 top = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.up;
                 break;
             }
         }
@@ -158,6 +174,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
                 bottom = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.down;
                 break;
             }
         }
@@ -171,6 +188,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
                 left = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.left;
                 break;
             }
         }
@@ -184,6 +202,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
                 right = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.right;
                 break;
             }
         }
@@ -208,7 +227,7 @@ public abstract class Topo : MonoBehaviour
 
     public void StartTopo()
     {
-        _idle.Play();
+        _outOfGround.Play();
     }
 
     private void OnDrawGizmos()
