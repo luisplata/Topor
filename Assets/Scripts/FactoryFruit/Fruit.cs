@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Fruit : MonoBehaviour
 {
     [SerializeField] private string id;
     [SerializeField] private float life;
     [SerializeField] private float timeToidle, timeToGame, timeToBite, timeToDead, timeToDestroyed;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Color colorToGame, colorToDead, colorToDestroyed, colorToBite, colorToIdle;
+    [FormerlySerializedAs("animationController")] [SerializeField] private AnimationControllerFruit animationControllerFruit;
     public event Action OnFruitDie;
     private TeaTime _idle, _game, _bite, _dead, _destroyed;
     private bool _areYouDead;
@@ -28,7 +28,7 @@ public abstract class Fruit : MonoBehaviour
         {
             if (life <= 0) return;
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Idle start animation");
-            spriteRenderer.color = colorToIdle;
+            animationControllerFruit.PlayRise();
         }).Add(timeToidle).Add(() =>
         {
             _game.Play();
@@ -37,7 +37,7 @@ public abstract class Fruit : MonoBehaviour
         _game = this.tt().Pause().Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Game");
-            spriteRenderer.color = colorToGame;
+            animationControllerFruit.PlayGame();
         }).Wait(() => life <= 0).Add(() =>
         {
             _dead.Play();
@@ -46,7 +46,7 @@ public abstract class Fruit : MonoBehaviour
         _bite = this.tt().Pause().Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Bite");
-            spriteRenderer.color = colorToBite;
+            animationControllerFruit.PlayBite();
         }).Add(timeToBite).Add(() =>
         {
             if (life <= 0)
@@ -66,7 +66,7 @@ public abstract class Fruit : MonoBehaviour
         _dead = this.tt().Pause().Add(() =>
         {
             ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Dead");
-            spriteRenderer.color = colorToDead;
+            animationControllerFruit.PlayDead();
         }).Add(timeToDead).Add(() =>
         {
             _destroyed.Play();
@@ -75,11 +75,10 @@ public abstract class Fruit : MonoBehaviour
         _destroyed = this.tt().Pause().Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Destroyed Start");
-            spriteRenderer.color = colorToDestroyed;
         }).Add(timeToDestroyed).Add(() =>
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Destroyed End");
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         });
     }
 

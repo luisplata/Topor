@@ -18,9 +18,9 @@ public class Map : MonoBehaviour, IMap
         ServiceLocator.Instance.UnregisterService<IMap>();
     }
 
-    public GameObject GetPointToTopoByPosition(int position)
+    public PointToTopo GetPointToTopoByPosition(int position)
     {
-        return (from pointToTopo in pointToTopos where pointToTopo.Position == position select pointToTopo.gameObject).FirstOrDefault();
+        return (from pointToTopo in pointToTopos where pointToTopo.Position == position select pointToTopo).FirstOrDefault();
     }
     public PointToFruit GetPointToFruitByPosition(int position)
     {

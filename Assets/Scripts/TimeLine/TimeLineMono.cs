@@ -25,6 +25,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     private void StartGame()
     {
         currentTime = 0;
+        Debug.Log($"Start game timeLine.GetSteps() {timeLine.GetSteps().Length}");
         foreach (var step in timeLine.GetSteps())
         {
             step.IsDone = false;
@@ -82,6 +83,11 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     public void StartCount()
     {
         _weAreGaming = true;
+    }
+
+    public void StopGame()
+    {
+        _weAreGaming = false;
     }
 }
 
