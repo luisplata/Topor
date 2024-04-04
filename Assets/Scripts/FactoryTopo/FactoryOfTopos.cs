@@ -11,7 +11,7 @@ public class FactoryOfTopos : MonoBehaviour
         _toposFactory = new ToposFactory(Instantiate(toposConfiguration));
     }
     
-    public Topo SpawnTopo(string id, GameObject parent)
+    public Topo SpawnTopo(string id, PointToTopo parent)
     {
         var topo = _toposFactory.Create(id);
         topo.Configure(parent);
