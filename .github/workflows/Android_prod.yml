@@ -11,7 +11,7 @@ jobs:
     environment: production
     # This stops builds that are in-progress once a new commit comes in
     concurrency: 
-      group: unity-build-android
+      group: unity-build-android-prod
       cancel-in-progress: true
     steps:
       # Checkout
