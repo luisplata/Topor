@@ -3,7 +3,7 @@ on:
   workflow_dispatch: {}
   pull_request:
     branches:
-      - main
+      - develop
 jobs:
   build:
     name: Build Project
@@ -52,7 +52,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: html5
-          ITCH_GAME: topar-sample
+          ITCH_GAME: ${{vars.ITCHIO_PAGE}}
           ITCH_USER: peryloth
           PACKAGE: build/WebGL
       - name: Cleanup to avoid storage limit
