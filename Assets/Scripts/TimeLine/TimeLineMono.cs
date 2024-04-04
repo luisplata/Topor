@@ -84,6 +84,11 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     {
         _weAreGaming = true;
     }
+
+    public void StopGame()
+    {
+        _weAreGaming = false;
+    }
 }
 
 public interface ITimeLineService

@@ -9,6 +9,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
     [SerializeField] private FruitsMono fruitsMono;
     [SerializeField] private float timeAfterEnd;
     [SerializeField] private TextMeshProUGUI titleEndGame, subtitleEndGame;
+    [SerializeField] private int nextScene;
     private TeaTime _idle, _ready, _game, _condition, _end;
 
     void Start()
@@ -77,6 +78,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
                 titleEndGame.text = "You Lose!";
                 subtitleEndGame.text = "All Fruits are Dead!";
             }
+            timeLineMono.StopGame();
             uiController.ShowEndGamePanel(true);
         }).Wait(()=>uiController.SelectedEndGame).Add(() =>
         {
@@ -84,7 +86,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
             uiController.ShowEndGameAnimation();
         }).Add(timeAfterEnd).Add(() =>
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(nextScene);
         });
     }
 

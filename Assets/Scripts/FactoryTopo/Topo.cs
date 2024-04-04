@@ -20,7 +20,7 @@ public abstract class Topo : MonoBehaviour
     private float _deltaTimeLocal;
     public Action OnTopoDie;
     private Fruit _fruitSelected;
-    private bool attackLeft;
+    private Vector2 direction;
     
     public float TotalTime => timeToInit + timeToSearch + timeToAction + timeToEnd + timeToDead; 
     public string Id => id;
@@ -86,7 +86,7 @@ public abstract class Topo : MonoBehaviour
         {
             //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Action");
             _deltaTimeLocal = 0;
-            animationControllerTopo.PlayAction(attackLeft);
+            animationControllerTopo.PlayAction(direction);
         }).Loop(t =>
         {
             _deltaTimeLocal += t.deltaTime;
@@ -147,7 +147,7 @@ public abstract class Topo : MonoBehaviour
         //shot 2D raycasts to find fruits in top, bottom, left and right
         //shot up
         
-        attackLeft = false;
+        direction = Vector2.zero;
         
         Fruit top = null, bottom = null, left = null, right = null;
         
@@ -160,6 +160,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
                 top = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.up;
                 break;
             }
         }
@@ -173,6 +174,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
                 bottom = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.down;
                 break;
             }
         }
@@ -186,7 +188,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
                 left = raycastHit2D.collider.GetComponent<Fruit>();
-                attackLeft = true;
+                direction = Vector2.left;
                 break;
             }
         }
@@ -200,6 +202,7 @@ public abstract class Topo : MonoBehaviour
                 ServiceLocator.Instance.GetService<IDebugCustom>()
                     .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
                 right = raycastHit2D.collider.GetComponent<Fruit>();
+                direction = Vector2.right;
                 break;
             }
         }

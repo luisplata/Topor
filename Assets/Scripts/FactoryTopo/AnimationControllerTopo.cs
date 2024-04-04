@@ -6,38 +6,43 @@ public class AnimationControllerTopo : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
     [SerializeField] private string rise;
-    [SerializeField] private string Search, Action, End, Dead;
+    [SerializeField] private string Search;
+    [SerializeField] private string attackLeftAndRight;
+    [SerializeField] private string attackTop;
+    [SerializeField] private string attackBottom;
+    [SerializeField] private string End, Dead;
 
     public void PlaySearch()
     {
         animator.SetTrigger(Search);
     }
     
-    public void PlayAction(bool attackLeft)
+    public void PlayAction(Vector2 direction)
     {
-        spriteRenderer.flipX = attackLeft;
-        animator.SetTrigger(Action);
+        //evaluate the dirrection and play the animation that corresponds Up/Down or Left/Right
+        if (direction.x > 0)
+        {
+            spriteRenderer.flipX = direction.x > 0;
+            animator.SetTrigger(attackLeftAndRight);
+        }
+        else
+        {
+            animator.SetTrigger(direction.y > 0 ? attackTop : attackBottom);
+        }
     }
     
     public void PlayEnd()
     {
-        //return to original position
-        transform.localPosition = Vector3.zero;
         animator.SetTrigger(End);
     }
     
     public void PlayDead()
     {
-        //return to original position
-        transform.localPosition = Vector3.zero;
         animator.SetTrigger(Dead);
     }
 
     public void PlayRise()
     {
-        //move 0.5 in X
-        transform.localPosition = Vector3.zero;
-        transform.localPosition = new Vector3(transform.localPosition.x + 0.5f, transform.localPosition.y, transform.localPosition.z);
         animator.SetTrigger(rise);
     }
 }

@@ -123,7 +123,9 @@ MonoBehaviour:
   animator: {fileID: 6571449502372149092}
   rise: r
   Search: s
-  Action: a
+  attackLeftAndRight: aS
+  attackTop: aT
+  attackBottom: aB
   End: e
   Dead: d
 --- !u!1 &4923527641719830561
