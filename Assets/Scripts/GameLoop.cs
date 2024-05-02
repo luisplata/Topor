@@ -1,14 +1,10 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameLoop : MonoBehaviour, IGameLoop
 {
-    [SerializeField] private UIController uiController;
-    [SerializeField] private TimeLineMono timeLineMono;
     [SerializeField] private FruitsMono fruitsMono;
     [SerializeField] private float timeAfterEnd;
-    [SerializeField] private TextMeshProUGUI titleEndGame, subtitleEndGame;
     [SerializeField] private int nextScene;
     private TeaTime _idle, _ready, _game, _condition, _end;
 
@@ -23,9 +19,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
     {
         _idle = this.tt().Pause().Add(() =>
         {
-            //show animation or whatever
-            uiController.ShowStartPanel();
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Idle");
+            ServiceLocator.Instance.GetService<IUiControllerService>().ShowStartPanel();
         }).Add(() =>
         {
             _ready.Play();
@@ -33,24 +27,21 @@ public class GameLoop : MonoBehaviour, IGameLoop
         
         _ready = this.tt().Pause().Add(() =>
         {
-            //configure all components
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Ready");
-        }).Wait(()=>uiController.SelectedStartGame).Add(() =>
+        }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().SelectedStartGame).Add(() =>
         {
             _game.Play();
         });
         
         _game = this.tt().Pause().Add(() =>
         {
-            uiController.HideStartPanel();
+            ServiceLocator.Instance.GetService<IUiControllerService>().HideStartPanel();
             fruitsMono.StartToSpawn();
         }).Wait(()=>fruitsMono.Finished).Add(() =>
         {
-            timeLineMono.Configure(this);
+            ServiceLocator.Instance.GetService<ITimeLineService>().Configure(this);
         }).Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Game");
-            timeLineMono.StartCount();
+            ServiceLocator.Instance.GetService<ITimeLineService>().StartCount();
         }).Add(() =>
         {
             _condition.Play();
@@ -58,32 +49,29 @@ public class GameLoop : MonoBehaviour, IGameLoop
         
         _condition = this.tt().Pause().Add(() =>
         {
-            //Check condition
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Condition");
-        }).Wait(()=>timeLineMono.GameIsEnded || fruitsMono.AllFruitAreDead).Add(() =>
+        }).Wait(()=>ServiceLocator.Instance.GetService<ITimeLineService>().GameIsEnded || fruitsMono.AllFruitAreDead).Add(() =>
         {
             _end.Play();
         });
         
         _end = this.tt().Pause().Add(() =>
         {
-            if (timeLineMono.GameIsEnded)
+            if (fruitsMono.AllFruitAreDead)
             {
-                ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Win");
-                titleEndGame.text = "You Win!";
-                subtitleEndGame.text = "You save a few fruits!";
-            }else if (fruitsMono.AllFruitAreDead)
-            {
-                ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("GameLoop: Lose");
-                titleEndGame.text = "You Lose!";
-                subtitleEndGame.text = "All Fruits are Dead!";
+                ServiceLocator.Instance.GetService<IUiControllerService>().SetTitleEndGame("You Lose!");
+                ServiceLocator.Instance.GetService<IUiControllerService>().SetSubtitleEndGame("All Fruits are Dead!");
             }
-            timeLineMono.StopGame();
-            uiController.ShowEndGamePanel(true);
-        }).Wait(()=>uiController.SelectedEndGame).Add(() =>
+            else
+            {
+                ServiceLocator.Instance.GetService<IUiControllerService>().SetTitleEndGame("You Win!");
+                ServiceLocator.Instance.GetService<IUiControllerService>().SetSubtitleEndGame("You save a few fruits!");
+            }
+            ServiceLocator.Instance.GetService<ITimeLineService>().StopGame();
+            ServiceLocator.Instance.GetService<IUiControllerService>().ShowEndGamePanel(true);
+        }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().SelectedEndGame).Add(() =>
         {
-            uiController.HideEndGamePanel();
-            uiController.ShowEndGameAnimation();
+            ServiceLocator.Instance.GetService<IUiControllerService>().HideEndGamePanel();
+            ServiceLocator.Instance.GetService<IUiControllerService>().ShowEndGameAnimation();
         }).Add(timeAfterEnd).Add(() =>
         {
             SceneManager.LoadScene(nextScene);
@@ -92,7 +80,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
 
     private void ConfigureButtons()
     {
-        uiController.Configure(this);
+        ServiceLocator.Instance.GetService<IUiControllerService>().Configure(this);
     }
 }
 

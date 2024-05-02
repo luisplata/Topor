@@ -65,7 +65,7 @@ public abstract class Fruit : MonoBehaviour
         
         _dead = this.tt().Pause().Add(() =>
         {
-            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Dead");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Fruit {id}: Dead");
             animationControllerFruit.PlayDead();
         }).Add(timeToDead).Add(() =>
         {

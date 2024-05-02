@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class TouchTopo : MonoBehaviour
 {
-    [SerializeField] private DebugCustom debugCustom;
     private Vector2 point;
     private Topo currentTopo;
     public void OnTouch(InputAction.CallbackContext context)

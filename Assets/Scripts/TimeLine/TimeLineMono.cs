@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class TimeLineMono : MonoBehaviour, ITimeLineService
@@ -25,7 +24,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     private void StartGame()
     {
         currentTime = 0;
-        Debug.Log($"Start game timeLine.GetSteps() {timeLine.GetSteps().Length}");
+        //Debug.Log($"Start game timeLine.GetSteps() {timeLine.GetSteps().Length}");
         foreach (var step in timeLine.GetSteps())
         {
             step.IsDone = false;
@@ -40,7 +39,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
             _totalTime += step.GetTimeFromTopo();
         }
 
-        ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Total time: {_totalTime}");
+        //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Total time: {_totalTime}");
     }
 
     private void OnTopoDie()
@@ -50,7 +49,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
             if (!step.IsDead) return;
         }
         _weAreGaming = false;
-        ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("All topos are dead");
+        //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("All topos are dead");
     }
 
     private void Update()
@@ -63,14 +62,12 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
             {
                 step.IsDone = true;
                 step.StartTopo();
-                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"step in {step.GetTime()} with topo {step.GetTopo()} and position {step.Position}");
             }
         }
         
         if (currentTime >= _totalTime)
         {
             _weAreGaming = false;
-            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText("Time is over");
         }
     }
 
@@ -93,4 +90,8 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
 
 public interface ITimeLineService
 {
+    void Configure(IGameLoop gameLoop);
+    void StartCount();
+    bool GameIsEnded { get; }
+    void StopGame();
 }

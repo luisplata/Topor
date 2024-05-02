@@ -118,7 +118,7 @@ public abstract class Topo : MonoBehaviour
         
         _dead = this.tt().Pause().Add(() =>
         {
-            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Dead");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Dead");
             animationControllerTopo.PlayDead();
         }).Add(timeToDead).Add(() =>
         {
@@ -157,8 +157,7 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                ServiceLocator.Instance.GetService<IDebugCustom>()
-                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
+                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
                 top = raycastHit2D.collider.GetComponent<Fruit>();
                 direction = Vector2.up;
                 break;
@@ -171,8 +170,7 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                ServiceLocator.Instance.GetService<IDebugCustom>()
-                    .DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
+                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
                 bottom = raycastHit2D.collider.GetComponent<Fruit>();
                 direction = Vector2.down;
                 break;
@@ -185,8 +183,7 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                ServiceLocator.Instance.GetService<IDebugCustom>()
-                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
+                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
                 left = raycastHit2D.collider.GetComponent<Fruit>();
                 direction = Vector2.left;
                 break;
@@ -199,8 +196,7 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                ServiceLocator.Instance.GetService<IDebugCustom>()
-                    .DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
+                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
                 right = raycastHit2D.collider.GetComponent<Fruit>();
                 direction = Vector2.right;
                 break;
@@ -213,7 +209,7 @@ public abstract class Topo : MonoBehaviour
         fruits = Array.FindAll(fruits, fruit => fruit != null);
         if (fruits.Length == 0)
         {
-            ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} didn't find any fruit");
+            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} didn't find any fruit");
             return;
         }
         _fruitSelected = fruits[UnityEngine.Random.Range(0, fruits.Length)];
