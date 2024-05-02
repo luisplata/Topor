@@ -26,7 +26,7 @@ public class FruitsMono : MonoBehaviour
             CalculateFruitsPercentage();
             foreach (var relationFruit in relationFruits)
             {
-                Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity);
+                //Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity);
                 for (var i = 0; i < relationFruit.quantity; i++)
                 {
                     var fruit = factoryOfFruits.SpawnFruit(relationFruit.fruitId, map.GetPointToFruitByPosition(map.GetRandomPositionToFruit()));
