@@ -22,6 +22,11 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     {
         ServiceLocator.Instance.RegisterService<ITimeLineService>(this);
     }
+    
+    private void OnDestroy()
+    {
+        ServiceLocator.Instance.UnregisterService<ITimeLineService>();
+    }
 
     private void Start()
     {
@@ -74,7 +79,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
             if (spawn.deltaSpawn >= 60 / spawn.countOfEnemyToSpawnOfMin)
             {
                 spawn.deltaSpawn = 0;
-                Debug.Log($"Spawn {spawn.toposToSpawn}");
+                //Debug.Log($"Spawn {spawn.toposToSpawn}");
                 var topo = factoryOfTopos.SpawnTopo(spawn.toposToSpawn, map.GetPointToTopoByPosition(map.GetRandomPositionToTopo()));
                 topo.StartTopo();
                 _topos.Add(topo);
