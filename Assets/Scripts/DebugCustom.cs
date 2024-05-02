@@ -1,29 +1,24 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-public class DebugCustom : MonoBehaviour, IDebugCustom
+public class DebugCustom : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI debugText;
+    [SerializeField] private TextMeshProUGUI debug;
 
-    private void Awake()
+    private void Start()
     {
-        ServiceLocator.Instance.RegisterService<IDebugCustom>(this);   
+        Application.logMessageReceived += Handle_Logs;
     }
 
-    private void OnDestroy()
+    public void Handle_Logs(string logString, string stackTrace, LogType type)
     {
-        ServiceLocator.Instance.UnregisterService<IDebugCustom>();
-    }
+        var format = $"{type}: {logString}";
+        if (type == LogType.Error || type == LogType.Exception)
+        {
+            format += $"\n{stackTrace}";
+        }
 
-    public void DebugText(string text)
-    {
-        debugText.text += text + "\n";
-        Debug.Log(text);
+        format += "\n\n";
+        debug.text += format;
     }
-}
-
-public interface IDebugCustom
-{
-    void DebugText(string text);
 }

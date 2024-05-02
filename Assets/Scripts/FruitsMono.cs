@@ -21,9 +21,9 @@ public class FruitsMono : MonoBehaviour
 
     private void Start()
     {
-        CalculateFruitsPercentage();
         _spawn = this.tt().Pause().Loop(1,t =>
         {
+            CalculateFruitsPercentage();
             foreach (var relationFruit in relationFruits)
             {
                 Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity);
@@ -52,11 +52,10 @@ public class FruitsMono : MonoBehaviour
         foreach (var relationFruit in relationFruits)
         {
             relationFruit.quantity = (int)(totalFruits * relationFruit.percentage) / 100;
-            Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity + " to " + totalFruits);
+            //Debug.Log(relationFruit.fruitId + " " + relationFruit.quantity + " to " + totalFruits);
         }
-        //fill the rest of the fruits
         var rest = totalFruits - relationFruits.Sum(relationFruit => relationFruit.quantity);
-        //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"rest: {rest}");
+        //Debug.Log($"rest: {rest}");
         relationFruits[0].quantity += rest;
     }
 }

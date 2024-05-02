@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Map : MonoBehaviour, IMap
 {
-    [SerializeField] private PointToTopo[] pointToTopos;
-    [SerializeField] private PointToFruit[] pointToFruits;
+    [SerializeField] private List<PointToTopo> pointToTopos;
+    [SerializeField] private List<PointToFruit> pointToFruits;
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService<IMap>(this);        
+        ServiceLocator.Instance.RegisterService<IMap>(this);
+        pointToTopos = new List<PointToTopo>();
+        pointToFruits = new List<PointToFruit>();
     }
     
     private void OnDestroy()
@@ -29,15 +30,26 @@ public class Map : MonoBehaviour, IMap
 
     public int GetRandomPositionToTopo()
     {
-        return UnityEngine.Random.Range(0, pointToTopos.Length);
+        return Random.Range(0, pointToTopos.Count);
     }
+
+    public void SaveTopo(PointToTopo topo)
+    {
+        pointToTopos.Add(topo);
+    }
+
+    public void SaveFruit(PointToFruit pointToFruit)
+    {
+        pointToFruits.Add(pointToFruit);
+    }
+
     public int GetRandomPositionToFruit()
     {
-        var position = UnityEngine.Random.Range(0, pointToFruits.Length);
+        var position = Random.Range(0, pointToFruits.Count);
         var tries = 0;
         while (pointToFruits[position].HasFruit)
         {
-            position = UnityEngine.Random.Range(0, pointToFruits.Length);
+            position = UnityEngine.Random.Range(0, pointToFruits.Count);
             tries++;
             if (tries > 100)
             {
@@ -51,10 +63,10 @@ public class Map : MonoBehaviour, IMap
 
     public int GetFruits()
     {
-        return pointToFruits.Length;
+        return pointToFruits.Count;
     }
 
-    public PointToFruit[] GetAllFruits()
+    public List<PointToFruit> GetAllFruits()
     {
         return pointToFruits;
     }
@@ -63,4 +75,6 @@ public class Map : MonoBehaviour, IMap
 public interface IMap
 {
     int GetRandomPositionToTopo();
+    void SaveTopo(PointToTopo topo);
+    void SaveFruit(PointToFruit pointToFruit);
 }

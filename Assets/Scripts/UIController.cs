@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +7,14 @@ public class UIController : MonoBehaviour, IUiControllerService
 {
     [SerializeField] private GameObject startPanel, endGamePanel, animationPanel;
     [SerializeField] private Button startButton, endButton;
+    [SerializeField] private TextMeshProUGUI titleEndGame, subtitleEndGame;
     private IGameLoop _gameLoop;
     public bool SelectedEndGame { get; private set; }
     public bool SelectedStartGame { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
-        ServiceLocator.Instance.RegisterService<IUiControllerService>(this);
+        ServiceLocator.Instance.RegisterService<IUiControllerService>(this);   
     }
 
     private void OnDestroy()
@@ -38,6 +40,16 @@ public class UIController : MonoBehaviour, IUiControllerService
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
         animationPanel.SetActive(true);
+    }
+
+    public void SetTitleEndGame(string title)
+    {
+        titleEndGame.text = title;
+    }
+
+    public void SetSubtitleEndGame(string subtitle)
+    {
+        subtitleEndGame.text = subtitle;
     }
 
     public void ShowStartPanel()
@@ -74,4 +86,14 @@ public class UIController : MonoBehaviour, IUiControllerService
 
 public interface IUiControllerService
 {
+    void ShowStartPanel();
+    bool SelectedStartGame { get; }
+    bool SelectedEndGame { get; }
+    void HideStartPanel();
+    void ShowEndGamePanel(bool b);
+    void HideEndGamePanel();
+    void ShowEndGameAnimation();
+    void Configure(IGameLoop gameLoop);
+    void SetTitleEndGame(string title);
+    void SetSubtitleEndGame(string subtitle);
 }

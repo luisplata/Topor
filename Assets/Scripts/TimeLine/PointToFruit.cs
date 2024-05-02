@@ -7,6 +7,11 @@ public class PointToFruit : MonoBehaviour
     [ReadOnly][SerializeField] private bool hasFruit;
     private Fruit fruit;
     public int Position => position;
+    
+    private void Start()
+    {
+        ServiceLocator.Instance.GetService<IMap>().SaveFruit(this);
+    }
     public bool HasFruit
     {
         get => hasFruit;
