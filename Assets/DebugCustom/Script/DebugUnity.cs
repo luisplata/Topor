@@ -31,21 +31,21 @@ namespace DebugCustom.Script
             {
                 case LogType.Error:
                 case LogType.Exception:
-                    CreateLog(logError, textToLog, type, 20);
+                    CreateLog(logError, textToLog, type);
                     break;
                 case LogType.Warning:
-                    CreateLog(logWarning, textToLog, type, 15);
+                    CreateLog(logWarning, textToLog, type);
                     break;
                 default:
-                    CreateLog(log, textToLog, type, 10);
+                    CreateLog(log, textToLog, type);
                     break;
             }
         }
 
-        private void CreateLog(Log logPrefab, string textToLog, LogType type, int fontSize)
+        private void CreateLog(Log logPrefab, string textToLog, LogType type)
         {
             Log newLog = Instantiate(logPrefab, panelDebug.transform);
-            newLog.Configure(textToLog, type, fontSize);
+            newLog.Configure(textToLog, type);
         }
     }
 }

@@ -4,11 +4,10 @@ namespace DebugCustom.Script
 {
     public class LogError : Log
     {
-        public override void Configure(string log, LogType type, int fontSize)
+        public override void Configure(string log, LogType type)
         {
-            textDebug.text = log;
+            base.Configure(log, type);
             background.color = Color.red;
-            textDebug.fontSize = fontSize;
         }
     }
 }

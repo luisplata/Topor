@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textDebug: {fileID: 5797257446081482081}
   background: {fileID: 2549281447104378554}
+  fontSize: 40
 --- !u!1 &7197762292630659837
 GameObject:
   m_ObjectHideFlags: 0

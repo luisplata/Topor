@@ -1,65 +1,68 @@
 using System.Collections;
 using UnityEngine;
 
-public class ExampleToLog : MonoBehaviour
+namespace DebugCustom.Example
 {
-    // Start is called before the first frame update
-    [SerializeField] private bool isSendLog = true;
-    [SerializeField] private bool isSendLogError = true;
-    [SerializeField] private bool isSendLogWarning = true;
-    [SerializeField] private float timeToLog = 5f;
-    void Start()
+    public class ExampleToLog : MonoBehaviour
     {
-        Debug.Log("This is a log message");
-        StartCoroutine(SendLogAnyXSeconds());
-        StartCoroutine(SendLogErrorAnyXSeconds());
-        StartCoroutine(SendLogWarningAnyXSeconds());
-    }
-
-    private IEnumerator SendLogWarningAnyXSeconds()
-    {
-        while (true)
+        // Start is called before the first frame update
+        [SerializeField] private bool isSendLog = true;
+        [SerializeField] private bool isSendLogError = true;
+        [SerializeField] private bool isSendLogWarning = true;
+        [SerializeField] private float timeToLog = 5f;
+        void Start()
         {
-            if (!isSendLogWarning)
+            Debug.Log("This is a log message");
+            StartCoroutine(SendLogAnyXSeconds());
+            StartCoroutine(SendLogErrorAnyXSeconds());
+            StartCoroutine(SendLogWarningAnyXSeconds());
+        }
+
+        private IEnumerator SendLogWarningAnyXSeconds()
+        {
+            while (true)
             {
-                yield return new WaitForSeconds(timeToLog);
-            }
-            else
-            {
-                Debug.LogWarning("This is a log warning message every 5 seconds");
-                yield return new WaitForSeconds(timeToLog);   
+                if (!isSendLogWarning)
+                {
+                    yield return new WaitForSeconds(timeToLog);
+                }
+                else
+                {
+                    Debug.LogWarning("This is a log warning message every 5 seconds");
+                    yield return new WaitForSeconds(timeToLog);   
+                }
             }
         }
-    }
 
-    private IEnumerator SendLogErrorAnyXSeconds()
-    {
-        while (true)
+        private IEnumerator SendLogErrorAnyXSeconds()
         {
-            if (!isSendLogError)
+            while (true)
             {
-                yield return new WaitForSeconds(timeToLog);
-            }
-            else
-            {
-                Debug.LogError("This is a log error message every 5 seconds");
-                yield return new WaitForSeconds(timeToLog);
+                if (!isSendLogError)
+                {
+                    yield return new WaitForSeconds(timeToLog);
+                }
+                else
+                {
+                    Debug.LogError("This is a log error message every 5 seconds");
+                    yield return new WaitForSeconds(timeToLog);
+                }
             }
         }
-    }
 
-    private IEnumerator SendLogAnyXSeconds()
-    {
-        while (true)
+        private IEnumerator SendLogAnyXSeconds()
         {
-            if (!isSendLog)
+            while (true)
             {
-                yield return new WaitForSeconds(timeToLog);
-            }
-            else
-            {
-                Debug.Log("This is a log message every 5 seconds");
-                yield return new WaitForSeconds(timeToLog);
+                if (!isSendLog)
+                {
+                    yield return new WaitForSeconds(timeToLog);
+                }
+                else
+                {
+                    Debug.Log("This is a log message every 5 seconds");
+                    yield return new WaitForSeconds(timeToLog);
+                }
             }
         }
     }

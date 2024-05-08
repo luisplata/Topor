@@ -225,3 +225,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textDebug: {fileID: 7497612635498375026}
   background: {fileID: 3885101178086232317}
+  fontSize: 35

@@ -8,8 +8,10 @@ namespace DebugCustom.Script
     {
         [SerializeField] protected TextMeshProUGUI textDebug;
         [SerializeField] protected Image background;
+        [SerializeField] protected float fontSize;
+        
 
-        public virtual void Configure(string log, LogType type, int fontSize)
+        public virtual void Configure(string log, LogType type)
         {
             textDebug.text = log;
             textDebug.fontSize = fontSize;
