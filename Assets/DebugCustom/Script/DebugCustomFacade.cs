@@ -27,7 +27,7 @@ namespace DebugCustom.Script
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
             Debug.Log("Scene loaded");
-            eventSystem.gameObject.SetActive(FindObjectsOfType<EventSystem>().Length < 1);
+            eventSystem.gameObject.SetActive(FindObjectsOfType<EventSystem>().Length < 2);
         }
         
         private void OnDestroy()
