@@ -30,7 +30,10 @@ public class Map : MonoBehaviour, IMap
 
     public int GetRandomPositionToTopo()
     {
-        return Random.Range(0, pointToTopos.Count);
+        var listOfFreeTopos = pointToTopos.Where(point => point.IsFree).ToList();
+        var position = Random.Range(0, listOfFreeTopos.Count);
+        var result = listOfFreeTopos[position];
+        return result.Position;
     }
 
     public void SaveTopo(PointToTopo topo)
@@ -49,7 +52,7 @@ public class Map : MonoBehaviour, IMap
         var tries = 0;
         while (pointToFruits[position].HasFruit)
         {
-            position = UnityEngine.Random.Range(0, pointToFruits.Count);
+            position = Random.Range(0, pointToFruits.Count);
             tries++;
             if (tries > 100)
             {
