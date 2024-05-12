@@ -19,15 +19,14 @@ public class AnimationControllerTopo : MonoBehaviour
     
     public void PlayAction(Vector2 direction)
     {
-        //evaluate the dirrection and play the animation that corresponds Up/Down or Left/Right
-        if (direction.x > 0)
+        if (direction == Vector2.left || direction == Vector2.right)
         {
-            spriteRenderer.flipX = direction.x > 0;
+            spriteRenderer.flipX = direction == Vector2.left;
             animator.SetTrigger(attackLeftAndRight);
         }
         else
         {
-            animator.SetTrigger(direction.y > 0 ? attackTop : attackBottom);
+            animator.SetTrigger(direction == Vector2.up ? attackTop : attackBottom);
         }
     }
     

@@ -9,7 +9,6 @@ namespace DebugCustom.Script
     {
         [SerializeField] private Button button_show_debug;
         [SerializeField] private AnimatorDebugPanel debug_panel_animator;
-        [SerializeField] private EventSystem eventSystem;
         private bool isDebugVisible;
 
         private void Awake()
@@ -26,8 +25,7 @@ namespace DebugCustom.Script
 
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            Debug.Log("Scene loaded");
-            eventSystem.gameObject.SetActive(FindObjectsOfType<EventSystem>().Length < 2);
+            
         }
         
         private void OnDestroy()
