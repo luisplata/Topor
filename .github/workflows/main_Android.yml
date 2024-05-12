@@ -55,8 +55,8 @@ jobs:
           customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
       - uses: actions/upload-artifact@v3
         with:
-          name: Build
-          path: build
+          name: build-Android
+          path: build/Android
       
   deploy:
     name: Butler Push to Itch
