@@ -8,6 +8,15 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./
+        unityVersion:
+          - 2022.3.22f1
+        targetPlatform:
+          - Android # Build an Android player.
     # This stops builds that are in-progress once a new commit comes in
     concurrency: 
       group: unity-build-android
@@ -17,13 +26,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           lfs: true
       # Cache
       - uses: actions/cache@v3
         with:
-          path: Library
-          key: Library
+          path: ${{ matrix.projectPath }}/Library
+          path: ./Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
+            Library--${{ matrix.targetPlatform }}-
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
+            Library-${{ matrix.targetPlatform }}-
+            Library-
       # Build
+      - if: matrix.targetPlatform == 'Android'
+        uses: jlumbroso/free-disk-space@v1.2.0
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -31,8 +52,11 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: Android
-      - uses: actions/upload-artifact@v4
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+      - uses: actions/upload-artifact@v3
         with:
           name: build-Android
           path: build/Android
@@ -59,4 +83,4 @@ jobs:
         if: always()
         uses: geekyeggo/delete-artifact@v1
         with:
-            name: build-Windows
+            name: build-Android
