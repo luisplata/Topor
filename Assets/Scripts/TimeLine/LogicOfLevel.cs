@@ -30,7 +30,13 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
 
     private void Start()
     {
-        _levelStartController = ServiceLocator.Instance.GetService<ISaveDataToLevels>().GetLevelStartController();
+        try
+        {
+            _levelStartController = ServiceLocator.Instance.GetService<ISaveDataToLevels>().GetLevelStartController();
+        }catch(Exception e)
+        {
+            Debug.Log($"Level Load from local storage failed: {e.Message}");
+        }
         _steps = new List<StepInGame>();
         _topos = new List<Topo>();
     }
@@ -52,7 +58,6 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         }
         
         currentStepTime = _steps[currentStepIndex];
-        Debug.Log($"Total time: {totalTime}");
     }
 
     public void StartCount()

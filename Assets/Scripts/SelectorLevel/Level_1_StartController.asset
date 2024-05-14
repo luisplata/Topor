@@ -17,19 +17,16 @@ MonoBehaviour:
   - weight: 6
     toposToSpawn:
     - toposToSpawn: a
-      countOfEnemyToSpawnOfMin: 10
-      deltaSpawn: 0.23177269
-    - toposToSpawn: a
-      countOfEnemyToSpawnOfMin: 20
-      deltaSpawn: 0.1923437
-  - weight: 3
+      countOfEnemyToSpawnOfMin: 60
+      deltaSpawn: 0.5356171
+  - weight: 4
     toposToSpawn:
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 60
-      deltaSpawn: 0.5339766
+      deltaSpawn: 0.7497142
   - weight: 2
     toposToSpawn:
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 60
-      deltaSpawn: 0
+      deltaSpawn: 0.5871188
   levelIndex: 1

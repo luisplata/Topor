@@ -27,15 +27,22 @@ public abstract class Topo : MonoBehaviour
     
     private TeaTime _idle, _search, _action, _end, _dead, _destroyed, _outOfGround;
     private PointToTopo _parent;
-    private bool canOutGround = true;
+    private bool otherTopoOutOfGround = true;
 
     private void ConfigureTeaTime()
     {
         _outOfGround = this.tt().Pause().Add(() =>
         {
-            canOutGround = _parent.CanOutOfGround();
-            if(!canOutGround)
+            otherTopoOutOfGround = _parent.OtherTopoOutOfGround();
+            if(otherTopoOutOfGround)
+            {
                 timeToOutOfGround = 0;
+            }
+            else
+            {
+                _parent.OutFromGround();
+            }
+            _parent.SetFree(false);
         }).Add(timeToOutOfGround).Add(() =>
         {
             _idle.Play();
@@ -43,7 +50,6 @@ public abstract class Topo : MonoBehaviour
         _idle = this.tt().Pause().Add(() =>
         {
             touched = false;
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Idle start animation");
             animationControllerTopo.PlayRise();
             _deltaTimeLocal = 0;
             FindFruits();
@@ -64,7 +70,6 @@ public abstract class Topo : MonoBehaviour
         
         _search = this.tt().Pause().Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Search");
             _deltaTimeLocal = 0;
             animationControllerTopo.PlaySearch();
         }).Loop(t =>
@@ -77,14 +82,21 @@ public abstract class Topo : MonoBehaviour
             }
             else if (_deltaTimeLocal >= timeToSearch)
             {
-                _action.Play();
-                t.Break();
+                if(direction == Vector2.zero)
+                {
+                    _end.Play();
+                    t.Break();
+                }
+                else
+                {
+                    _action.Play();
+                    t.Break();
+                }
             }
         });
 
         _action = this.tt().Pause().Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Action");
             _deltaTimeLocal = 0;
             animationControllerTopo.PlayAction(direction);
         }).Loop(t =>
@@ -109,7 +121,6 @@ public abstract class Topo : MonoBehaviour
         
         _end = this.tt().Pause().Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: End");
             animationControllerTopo.PlayEnd();
         }).Add(timeToEnd).Add(() =>
         {
@@ -118,7 +129,6 @@ public abstract class Topo : MonoBehaviour
         
         _dead = this.tt().Pause().Add(() =>
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id}: Dead");
             animationControllerTopo.PlayDead();
         }).Add(timeToDead).Add(() =>
         {
@@ -127,6 +137,7 @@ public abstract class Topo : MonoBehaviour
         
         _destroyed = this.tt().Pause().Add(() =>
         {
+            _parent.SetFree(true);
             OnTopoDie?.Invoke();
             transform.SetParent(null);
             gameObject.SetActive(false);
@@ -144,22 +155,15 @@ public abstract class Topo : MonoBehaviour
 
     private void FindFruits()
     {
-        //shot 2D raycasts to find fruits in top, bottom, left and right
-        //shot up
+        FruitToAttack top = new (), bottom = new (), left = new (), right = new();
         
-        direction = Vector2.zero;
-        
-        Fruit top = null, bottom = null, left = null, right = null;
-        
-        //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} is searching for fruits");
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.up * distanceToSearch);
         foreach (var raycastHit2D in hit)
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in top");
-                top = raycastHit2D.collider.GetComponent<Fruit>();
-                direction = Vector2.up;
+                top.fruit = raycastHit2D.collider.GetComponent<Fruit>();
+                top.direction = Vector2.up;
                 break;
             }
         }
@@ -170,9 +174,8 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit  {raycastHit2D.collider.name} in bottom");
-                bottom = raycastHit2D.collider.GetComponent<Fruit>();
-                direction = Vector2.down;
+                bottom.fruit = raycastHit2D.collider.GetComponent<Fruit>();
+                bottom.direction = Vector2.down;
                 break;
             }
         }
@@ -183,9 +186,8 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in left");
-                left = raycastHit2D.collider.GetComponent<Fruit>();
-                direction = Vector2.left;
+                left.fruit = raycastHit2D.collider.GetComponent<Fruit>();
+                left.direction = Vector2.left;
                 break;
             }
         }
@@ -196,9 +198,8 @@ public abstract class Topo : MonoBehaviour
         {
             if (raycastHit2D.collider.CompareTag("Fruit"))
             {
-                //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} found a fruit {raycastHit2D.collider.name} in right");
-                right = raycastHit2D.collider.GetComponent<Fruit>();
-                direction = Vector2.right;
+                right.fruit = raycastHit2D.collider.GetComponent<Fruit>();
+                right.direction = Vector2.right;
                 break;
             }
         }
@@ -206,13 +207,15 @@ public abstract class Topo : MonoBehaviour
         //get random fruit to attack
         var fruits = new[] {top, bottom, left, right};
         //filter nulls
-        fruits = Array.FindAll(fruits, fruit => fruit != null);
+        fruits = Array.FindAll(fruits, fruit => fruit.fruit != null && fruit.fruit.AreDead == false);
         if (fruits.Length == 0)
         {
-            //ServiceLocator.Instance.GetService<IDebugCustom>().DebugText($"Topo {id} didn't find any fruit");
+            Debug.Log("No fruits to attack");
             return;
         }
-        _fruitSelected = fruits[UnityEngine.Random.Range(0, fruits.Length)];
+        var fruitToAttack = fruits[UnityEngine.Random.Range(0, fruits.Length)];
+        direction = fruitToAttack.direction;
+        _fruitSelected = fruitToAttack.fruit;
     }
     
 
@@ -234,4 +237,10 @@ public abstract class Topo : MonoBehaviour
         Gizmos.DrawRay(transform.position, Vector2.left * distanceToSearch);
         Gizmos.DrawRay(transform.position, Vector2.right * distanceToSearch);
     }
+}
+
+public class FruitToAttack
+{
+    public Fruit fruit;
+    public Vector2 direction;
 }

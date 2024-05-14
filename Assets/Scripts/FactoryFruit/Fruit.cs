@@ -1,13 +1,12 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class Fruit : MonoBehaviour
 {
     [SerializeField] private string id;
     [SerializeField] private float life;
     [SerializeField] private float timeToidle, timeToGame, timeToBite, timeToDead, timeToDestroyed;
-    [FormerlySerializedAs("animationController")] [SerializeField] private AnimationControllerFruit animationControllerFruit;
+    [SerializeField] private AnimationControllerFruit animationControllerFruit;
     public event Action OnFruitDie;
     private TeaTime _idle, _game, _bite, _dead, _destroyed;
     private bool _areYouDead;
