@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: Android
+          name: build/Android/Android.apk
           path: build/Android
       # Upload to Itch
       - name: Butler Push
