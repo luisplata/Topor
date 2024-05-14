@@ -50,6 +50,7 @@ jobs:
   deploy:
     name: Butler Push to Itch
     runs-on: ubuntu-latest
+    environment: production
     needs: build
     steps:
       - uses: actions/download-artifact@v4
