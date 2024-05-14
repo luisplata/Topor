@@ -5,6 +5,7 @@ jobs:
   build:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       fail-fast: false
       matrix:
