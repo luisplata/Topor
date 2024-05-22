@@ -19,6 +19,9 @@ public class GameLoop : MonoBehaviour, IGameLoop
     {
         _idle = this.tt().Pause().Add(() =>
         {
+            ServiceLocator.Instance.GetService<IUiControllerService>().ShowAnimationStart();
+        }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().AnimationStartGame).Add(() =>
+        {
             ServiceLocator.Instance.GetService<IUiControllerService>().ShowStartPanel();
         }).Add(() =>
         {
@@ -71,8 +74,8 @@ public class GameLoop : MonoBehaviour, IGameLoop
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().SelectedEndGame).Add(() =>
         {
             ServiceLocator.Instance.GetService<IUiControllerService>().HideEndGamePanel();
-            ServiceLocator.Instance.GetService<IUiControllerService>().ShowEndGameAnimation();
-        }).Add(timeAfterEnd).Add(() =>
+            ServiceLocator.Instance.GetService<IUiControllerService>().ShowEndGameAnimation(fruitsMono.AllFruitAreDead);
+        }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().AnimationStartGame).Add(() =>
         {
             SceneManager.LoadScene(nextScene);
         });
