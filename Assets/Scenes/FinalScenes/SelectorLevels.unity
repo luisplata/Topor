@@ -1346,6 +1346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels: []
   videoPlayer: {fileID: 1796220328}
+  videoClipStart: {fileID: 32900000, guid: c3af2abe1171ba445a463d3c4234e843, type: 3}
   video: {fileID: 1796220326}
   skipButton: {fileID: 63773290}
 --- !u!1 &1436374581

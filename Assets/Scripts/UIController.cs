@@ -65,8 +65,13 @@ public class UIController : MonoBehaviour, IUiControllerService
         animationPanel.SetActive(true);
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
-        videoPlayer.clip = videoClipStart;
-        StartCoroutine(StartVideo());
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", videoClipStart.name + ".mp4");
+        videoPlayer.Prepare();
+        videoPlayer.prepareCompleted += source =>
+        {
+            video.SetActive(true);
+            StartCoroutine(StartVideo());
+        };
     }
 
     public void ShowStartPanel()
@@ -79,6 +84,7 @@ public class UIController : MonoBehaviour, IUiControllerService
     private IEnumerator StartVideo()
     {
         StartVideoPlayer();
+        Debug.Log($"Start Video {videoPlayer.length}");
         yield return new WaitForSeconds((float)videoPlayer.length);
         FinishVideo();
     }
@@ -92,6 +98,8 @@ public class UIController : MonoBehaviour, IUiControllerService
     private void FinishVideo()
     {
         videoPlayer.Stop();
+        //clean url
+        videoPlayer.url = "";
         AnimationStartGame = true;
     }
 
@@ -114,11 +122,18 @@ public class UIController : MonoBehaviour, IUiControllerService
 
     public void ShowEndGameAnimation(bool lose)
     {
+        AnimationStartGame = false;
         animationPanel.SetActive(true);
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
-        videoPlayer.clip = !lose ? videoClipEndWin : videoClipEndLose;
-        StartCoroutine(StartVideo());
+        //videoPlayer.clip = !lose ? videoClipEndWin : videoClipEndLose;
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", !lose ? videoClipEndWin.name + ".mp4" : videoClipEndLose.name + ".mp4");
+        videoPlayer.Prepare();
+        videoPlayer.prepareCompleted += source =>
+        {
+            video.SetActive(true);
+            StartCoroutine(StartVideo());
+        };
     }
 }
 
