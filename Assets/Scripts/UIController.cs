@@ -1,16 +1,22 @@
-﻿using System;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class UIController : MonoBehaviour, IUiControllerService
 {
     [SerializeField] private GameObject startPanel, endGamePanel, animationPanel;
     [SerializeField] private Button startButton, endButton;
     [SerializeField] private TextMeshProUGUI titleEndGame, subtitleEndGame;
+    [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private GameObject video;
+    [SerializeField] private Button skipButton;
+    [SerializeField] private VideoClip videoClipStart, videoClipEndLose, videoClipEndWin;
     private IGameLoop _gameLoop;
     public bool SelectedEndGame { get; private set; }
     public bool SelectedStartGame { get; private set; }
+    public bool AnimationStartGame { get; private set; }
 
     private void Awake()
     {
@@ -40,6 +46,8 @@ public class UIController : MonoBehaviour, IUiControllerService
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
         animationPanel.SetActive(true);
+        
+        skipButton.onClick.AddListener(FinishVideo);
     }
 
     public void SetTitleEndGame(string title)
@@ -52,6 +60,20 @@ public class UIController : MonoBehaviour, IUiControllerService
         subtitleEndGame.text = subtitle;
     }
 
+    public void ShowAnimationStart()
+    {
+        animationPanel.SetActive(true);
+        startPanel.SetActive(false);
+        endGamePanel.SetActive(false);
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", videoClipStart.name + ".mp4");
+        videoPlayer.Prepare();
+        videoPlayer.prepareCompleted += source =>
+        {
+            video.SetActive(true);
+            StartCoroutine(StartVideo());
+        };
+    }
+
     public void ShowStartPanel()
     {
         animationPanel.SetActive(false);
@@ -59,6 +81,28 @@ public class UIController : MonoBehaviour, IUiControllerService
         startPanel.SetActive(true);
     }
     
+    private IEnumerator StartVideo()
+    {
+        StartVideoPlayer();
+        Debug.Log($"Start Video {videoPlayer.length}");
+        yield return new WaitForSeconds((float)videoPlayer.length);
+        FinishVideo();
+    }
+
+    private void StartVideoPlayer()
+    {
+        AnimationStartGame = false;
+        videoPlayer.Play();
+    }
+
+    private void FinishVideo()
+    {
+        videoPlayer.Stop();
+        //clean url
+        videoPlayer.url = "";
+        AnimationStartGame = true;
+    }
+
     public void HideStartPanel()
     {
         startPanel.SetActive(false);
@@ -76,11 +120,20 @@ public class UIController : MonoBehaviour, IUiControllerService
         endGamePanel.SetActive(false);
     }
 
-    public void ShowEndGameAnimation()
+    public void ShowEndGameAnimation(bool lose)
     {
+        AnimationStartGame = false;
         animationPanel.SetActive(true);
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
+        //videoPlayer.clip = !lose ? videoClipEndWin : videoClipEndLose;
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", !lose ? videoClipEndWin.name + ".mp4" : videoClipEndLose.name + ".mp4");
+        videoPlayer.Prepare();
+        videoPlayer.prepareCompleted += source =>
+        {
+            video.SetActive(true);
+            StartCoroutine(StartVideo());
+        };
     }
 }
 
@@ -89,11 +142,13 @@ public interface IUiControllerService
     void ShowStartPanel();
     bool SelectedStartGame { get; }
     bool SelectedEndGame { get; }
+    bool AnimationStartGame { get; }
     void HideStartPanel();
     void ShowEndGamePanel(bool b);
     void HideEndGamePanel();
-    void ShowEndGameAnimation();
+    void ShowEndGameAnimation(bool lose);
     void Configure(IGameLoop gameLoop);
     void SetTitleEndGame(string title);
     void SetSubtitleEndGame(string subtitle);
+    void ShowAnimationStart();
 }
