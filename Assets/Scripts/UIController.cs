@@ -12,7 +12,7 @@ public class UIController : MonoBehaviour, IUiControllerService
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private GameObject video;
     [SerializeField] private Button skipButton;
-    [SerializeField] private VideoClip videoClipStart, videoClipEndLose, videoClipEndWin;
+    [SerializeField] private string videoClipStart, videoClipEndLose, videoClipEndWin;
     private IGameLoop _gameLoop;
     public bool SelectedEndGame { get; private set; }
     public bool SelectedStartGame { get; private set; }
@@ -65,7 +65,7 @@ public class UIController : MonoBehaviour, IUiControllerService
         animationPanel.SetActive(true);
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
-        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", videoClipStart.name + ".mp4");
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Videos", videoClipStart + ".mp4");
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += source =>
         {
@@ -127,7 +127,7 @@ public class UIController : MonoBehaviour, IUiControllerService
         startPanel.SetActive(false);
         endGamePanel.SetActive(false);
         //videoPlayer.clip = !lose ? videoClipEndWin : videoClipEndLose;
-        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", !lose ? videoClipEndWin.name + ".mp4" : videoClipEndLose.name + ".mp4");
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Videos", !lose ? videoClipEndWin + ".mp4" : videoClipEndLose + ".mp4");
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += source =>
         {
