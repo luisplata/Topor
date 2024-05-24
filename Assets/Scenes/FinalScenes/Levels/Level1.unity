@@ -270,6 +270,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasUiGame
       objectReference: {fileID: 0}
+    - target: {fileID: 8501906274153461370, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
+      propertyPath: videoClipStart
+      value: initGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501906274153461370, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
+      propertyPath: videoClipEndWin
+      value: GameWin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501906274153461370, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
+      propertyPath: videoClipEndLose
+      value: GameLose
+      objectReference: {fileID: 0}
     - target: {fileID: 9153207626135136974, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0

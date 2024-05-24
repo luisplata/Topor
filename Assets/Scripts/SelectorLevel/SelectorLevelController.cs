@@ -9,7 +9,7 @@ public class SelectorLevelController : MonoBehaviour, ISelectorLevelController
 {
     [SerializeField] List<LevelController> levels;
     [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private VideoClip videoClipStart;
+    [SerializeField] private string videoClipStart;
     [SerializeField] private GameObject video;
     [SerializeField] private Button skipButton;
 
@@ -20,7 +20,7 @@ public class SelectorLevelController : MonoBehaviour, ISelectorLevelController
 
     private void Start()
     {
-        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath+"/Videos", videoClipStart.name + ".mp4");
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Videos", videoClipStart + ".mp4");
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += source =>
         {
