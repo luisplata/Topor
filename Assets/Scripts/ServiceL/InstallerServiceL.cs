@@ -1,3 +1,5 @@
+using MenuUI.SystemOfExtras;
+using ServiceLocatorPath;
 using UnityEngine;
 
 public class InstallerServiceL : MonoBehaviour
@@ -10,6 +12,9 @@ public class InstallerServiceL : MonoBehaviour
             return;
         }
         ServiceLocator.Instance.RegisterService<ISaveDataToLevels>(new SaveDataToLevels());
+        var p = new PlayFabCustom();
+        ServiceLocator.Instance.RegisterService<IPlayFabCustom>(p);
+        ServiceLocator.Instance.RegisterService<ISaveData>(p);
         DontDestroyOnLoad(gameObject);
     }
 }
