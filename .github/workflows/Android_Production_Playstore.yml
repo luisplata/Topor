@@ -1,14 +1,13 @@
-name: Actions Android Prod 😎
+name: Actions Android Production Playstore 😎
 on:
   workflow_dispatch: {}
   pull_request:
     branches:
-      - main
+      - Playstore
 jobs:
   build:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
-    environment: production
     strategy:
       fail-fast: false
       matrix:
@@ -44,33 +43,37 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+          androidAppBundle: true
+          androidKeystoreName: user # This file won't exist, but this property needs to exist
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          androidTargetSdkVersion: AndroidApiLevel33
       - uses: actions/upload-artifact@v4
         with:
           name: build-Android
           path: build/Android
-      
   deploy:
-    name: Butler Push to Itch
-    runs-on: ubuntu-latest
-    environment: production
+    name: Upload to PlayStore
     needs: build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download Artefact
+        uses: actions/download-artifact@v2
         with:
           name: build-Android
           path: build/Android
-      # Upload to Itch
-      - name: Butler Push
-        uses: josephbmanley/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: android
-          ITCH_GAME: ${{vars.ITCHIO_PAGE}}
-          ITCH_USER: peryloth
-          PACKAGE: build/Android
+      - name: Upload to console
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.bellseboss.topor
+          releaseFiles: build/Android/Android.aab
+          status: draft
+          track: production
       - name: Cleanup to avoid storage limit
         if: always()
         uses: geekyeggo/delete-artifact@v1
         with:
-            name: build-Windows
+            name: build-Android
