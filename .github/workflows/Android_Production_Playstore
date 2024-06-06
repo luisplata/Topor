@@ -1,4 +1,4 @@
-name: Actions Android Dev 😎
+name: Actions Android Production Playstore 😎
 on:
   workflow_dispatch: {}
   pull_request:
