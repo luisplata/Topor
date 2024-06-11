@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1421322256611527030}
   - component: {fileID: 3653209907000186481}
   - component: {fileID: 2252824353259429324}
+  - component: {fileID: 7283033365594375008}
   m_Layer: 0
   m_Name: Rules
   m_TagString: Untagged
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitsMono: {fileID: 3653209907000186481}
   timeAfterEnd: 0
-  nextScene: 1
+  nextScene: 0
 --- !u!114 &8268240213348791189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,3 +259,21 @@ MonoBehaviour:
   _levelStartController: {fileID: 11400000, guid: daced8bf18bfb1e49a3c77ef61fe0ab0, type: 2}
   factoryOfTopos: {fileID: 8268240213348791189}
   map: {fileID: 8386778408700695765}
+  timeLightsSystem: {fileID: 7283033365594375008}
+--- !u!114 &7283033365594375008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517119875758416946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d53be33a604f3caf38b6f75d67c3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalLight: {fileID: 0}
+  minColor: {r: 1, g: 0.8784314, b: 0.61960787, a: 1}
+  maxColor: {r: 1, g: 1, b: 1, a: 1}
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}

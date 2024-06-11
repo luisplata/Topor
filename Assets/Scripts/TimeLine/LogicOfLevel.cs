@@ -8,7 +8,8 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     [SerializeField] private LevelStartController _levelStartController;
     [SerializeField] private FactoryOfTopos factoryOfTopos;
     [SerializeField] private Map map;
-    private float deltaTimeLocal;
+    [SerializeField] private TimeLightsSystem timeLightsSystem;
+    private float deltaTimeLocal, _deltaTimeGlobal;
     private float totalTime;
     private bool isConfigured;
     private List<StepInGame> _steps;
@@ -39,6 +40,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         }
         _steps = new List<StepInGame>();
         _topos = new List<Topo>();
+        timeLightsSystem.Configure(this);
     }
 
     public void Configure(IGameLoop gameLoop)
@@ -78,6 +80,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     {
         if (!isConfigured || GameIsEnded) return;
         deltaTimeLocal += Time.deltaTime;
+        _deltaTimeGlobal += Time.deltaTime;
         foreach (var spawn in currentStepTime.toposToSpawn)
         {
             spawn.deltaSpawn += Time.deltaTime;
@@ -101,5 +104,6 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
             }
             currentStepTime = _steps[currentStepIndex];
         }
+        timeLightsSystem.SetInterval(_deltaTimeGlobal / totalTime);
     }
 }
