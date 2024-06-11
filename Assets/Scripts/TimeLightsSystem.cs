@@ -28,6 +28,5 @@ public class TimeLightsSystem : MonoBehaviour
             percent = percent * 2 - 1;
             globalLight.color = Color.Lerp(maxColor, minColor, percent);
         }
-        Debug.Log("Time: " + percent);
     }
 }
