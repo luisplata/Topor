@@ -65,8 +65,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.Bellseboss.Topor
           releaseFiles: build/Android/Android.aab
-          status: draft
-          track: internal
+          track: beta
       - name: Cleanup to avoid storage limit
         if: always()
         uses: geekyeggo/delete-artifact@v1
