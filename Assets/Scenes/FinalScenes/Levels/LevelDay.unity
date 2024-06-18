@@ -332,6 +332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasUiGame
       objectReference: {fileID: 0}
+    - target: {fileID: 5876581137155184566, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8501906274153461370, guid: 2546dc930274b4949874997aa1c3d6d2, type: 3}
       propertyPath: videoClipStart
       value: initGame
@@ -673,7 +677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
-  m_LightType: 3
+  m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 0.7479921, b: 0.48584908, a: 1}
