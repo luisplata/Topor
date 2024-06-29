@@ -684,7 +684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: {fileID: 479277496}
-  nextSceneIndex: 1
+  nextSceneIndex: 2
 --- !u!1 &593643638
 GameObject:
   m_ObjectHideFlags: 0

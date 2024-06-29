@@ -21,5 +21,5 @@ public class LevelStartController : ScriptableObject
 
     public int TimeOfGame => timeOfGame;
     public List<StepOfGame> Steps => steps;
-    public int LevelIndex => levelIndex + 2;
+    public int LevelIndex => levelIndex + 3;
 }
