@@ -7,9 +7,11 @@ public class VideoPlayerScreen : MonoBehaviour
 {
     public UnityEvent OnFinishVideo;
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private string videoClipStart;
     
     private void Start()
     {
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Videos", videoClipStart + ".mp4");
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += source =>
         {
