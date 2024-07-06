@@ -72,3 +72,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# FMOD
+[Ff]mod/.cache/
+[Ff]mod/.cache.meta
+[Ff]mod/Build/
+[Ff]mod/Build.meta
+[Ff]mod/GeneratedAssets/
+[Ff]mod/GeneratedAssets.meta
