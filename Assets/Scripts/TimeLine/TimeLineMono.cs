@@ -8,7 +8,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     private float currentTime;
     private IGameLoop _gameLoop;
     private float _totalTime;
-    private bool _weAreGaming;
+    private bool _weAreGaming, _isPaused;
     public bool GameIsEnded => !_weAreGaming;
 
     private void Start()
@@ -54,7 +54,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
 
     private void Update()
     {
-        if(!_weAreGaming) return;
+        if(!_weAreGaming || _isPaused) return;
         currentTime += Time.deltaTime;
         foreach (var step in timeLine.GetSteps())
         {
@@ -86,6 +86,11 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     {
         _weAreGaming = false;
     }
+
+    public void IsPaused(bool isPaused)
+    {
+        _isPaused = isPaused;
+    }
 }
 
 public interface ITimeLineService
@@ -94,4 +99,5 @@ public interface ITimeLineService
     void StartCount();
     bool GameIsEnded { get; }
     void StopGame();
+    void IsPaused(bool isPaused);
 }
