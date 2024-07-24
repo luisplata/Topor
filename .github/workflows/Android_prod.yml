@@ -1,10 +1,14 @@
 name: Actions Android Prod 😎
 on:
   workflow_dispatch: {}
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +53,7 @@ jobs:
   deploy:
     name: Butler Push to Itch
     runs-on: ubuntu-latest
+    environment: production
     needs: build
     steps:
       - uses: actions/download-artifact@v4

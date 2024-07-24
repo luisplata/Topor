@@ -11,7 +11,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     [SerializeField] private TimeLightsSystem timeLightsSystem;
     private float deltaTimeLocal, _deltaTimeGlobal;
     private float totalTime;
-    private bool isConfigured;
+    private bool isConfigured, _isPaused;
     private List<StepInGame> _steps;
     private int currentStepIndex;
     private StepInGame currentStepTime;
@@ -76,9 +76,14 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         }
     }
 
+    public void IsPaused(bool isPaused)
+    {
+        _isPaused = isPaused;
+    }
+
     private void Update()
     {
-        if (!isConfigured || GameIsEnded) return;
+        if (!isConfigured || GameIsEnded || _isPaused) return;
         deltaTimeLocal += Time.deltaTime;
         _deltaTimeGlobal += Time.deltaTime;
         foreach (var spawn in currentStepTime.toposToSpawn)
