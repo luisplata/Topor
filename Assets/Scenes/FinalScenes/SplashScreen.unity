@@ -260,7 +260,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   videoPlayer: {fileID: 389944576}
-  videoClipStart: initGame
+  videoClipStart: SplashArt
 --- !u!4 &229564750
 Transform:
   m_ObjectHideFlags: 0
