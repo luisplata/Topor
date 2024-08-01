@@ -145,7 +145,7 @@ public abstract class Topo : MonoBehaviour
             animationControllerTopo.PlayEnd();
         }).Add(timeToEnd).Add(() =>
         {
-            currentTeaTime = _idle;
+            currentTeaTime = _destroyed;
             currentTeaTime.Play();
         });
         
