@@ -6,6 +6,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
     [SerializeField] private FruitsMono fruitsMono;
     [SerializeField] private float timeAfterEnd;
     [SerializeField] private int nextScene;
+    [SerializeField] private TouchTopo touchTopo;
     private TeaTime _idle, _ready, _game, _condition, _end;
     private TeaTime _currentTeaTime;
 
@@ -20,11 +21,13 @@ public class GameLoop : MonoBehaviour, IGameLoop
         {
             if (isPause)
             {
+                touchTopo.CanPlaySounds(!isPause);
                 _currentTeaTime.Pause();
             }
             else
             {
                 _currentTeaTime.Play();
+                touchTopo.CanPlaySounds(!isPause);
             }
             ServiceLocator.Instance.GetService<ITimeLineService>().IsPaused(isPause);
         };
@@ -34,6 +37,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
     {
         _idle = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(false);
             ServiceLocator.Instance.GetService<IUiControllerService>().ShowAnimationStart();
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().AnimationStartGame).Add(() =>
         {
@@ -46,6 +50,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         
         _ready = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(false);
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().SelectedStartGame).Add(() =>
         {
             _currentTeaTime = _game;
@@ -54,6 +59,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         
         _game = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(true);
             ServiceLocator.Instance.GetService<IUiControllerService>().HideStartPanel();
             fruitsMono.StartToSpawn();
         }).Wait(()=>fruitsMono.Finished).Add(() =>
@@ -74,6 +80,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
         {
             _currentTeaTime = _end;
             _currentTeaTime.Play();
+            touchTopo.CanPlaySounds(false);
         });
         
         _end = this.tt().Pause().Add(() =>

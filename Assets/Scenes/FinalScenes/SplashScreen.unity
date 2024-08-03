@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a15081ba4f745fa9606fb499ae21c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busName: vca:/Sound
+  busName: vca:/Sounds
   defaultVolume: 0.75
   volumePrefKey: volume_sounds
 --- !u!114 &295583789

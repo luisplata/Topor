@@ -797,11 +797,26 @@ PrefabInstance:
       propertyPath: globalLight
       value: 
       objectReference: {fileID: 1617096505}
+    - target: {fileID: 8910841005333185082, guid: eed02ddb59a31344f874b56727dd1a4e, type: 3}
+      propertyPath: touchTopo
+      value: 
+      objectReference: {fileID: 1310251225}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eed02ddb59a31344f874b56727dd1a4e, type: 3}
+--- !u!114 &1310251225 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1873001695743292519, guid: eed02ddb59a31344f874b56727dd1a4e, type: 3}
+  m_PrefabInstance: {fileID: 1310251224}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6869e4e4b2b45a148aeb5c4fe280fb7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340302550
 GameObject:
   m_ObjectHideFlags: 0
