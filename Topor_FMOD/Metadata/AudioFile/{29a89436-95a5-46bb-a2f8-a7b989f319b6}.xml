@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{29a89436-95a5-46bb-a2f8-a7b989f319b6}">
 		<property name="assetPath">
-			<value>Mx-Topos1_Level1-4-4_bpm135.wav</value>
+			<value>MX/Mx-Topos1_Level1-4-4_bpm135.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
