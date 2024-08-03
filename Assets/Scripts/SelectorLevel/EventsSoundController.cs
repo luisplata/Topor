@@ -1,21 +1,32 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EventsSoundController : MonoBehaviour
 {
     [SerializeField] private ScrollRect scrollRect;
+    public UnityEvent OnScroll;
     public bool isScrolling;
     public float velocity;
+    public float maxVelocity;
+    private bool _canPlaySounds = true;
 
     private void Update()
     {
         if (isScrolling)
         {
-            velocity = scrollRect.velocity.x;
-            if (velocity is > 0.1f and < 1f)
+            velocity = Mathf.Abs(scrollRect.velocity.x);
+            var normalizedVelocityWithClamp = Mathf.Clamp(velocity / maxVelocity, 0, 1);
+            Debug.Log($"Scrolling: {normalizedVelocityWithClamp}");
+            if (normalizedVelocityWithClamp is > 0.1f and <= 1f && _canPlaySounds)
             {
-                Debug.Log($"burrrrr");
+                OnScroll?.Invoke();
+                _canPlaySounds = false;
+            }
+            else
+            {
+                _canPlaySounds = true;
             }
         }
     }
@@ -23,6 +34,7 @@ public class EventsSoundController : MonoBehaviour
     public void OnScrollStart()
     {
         isScrolling = true;
+        
     }
 
     public void OnScrollEnd()
