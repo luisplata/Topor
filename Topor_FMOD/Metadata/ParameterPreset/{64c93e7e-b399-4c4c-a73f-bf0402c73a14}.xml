@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{64c93e7e-b399-4c4c-a73f-bf0402c73a14}">
+		<property name="name">
+			<value>ScrollSpeed</value>
+		</property>
+		<relationship name="folder">
+			<destination>{ae8a7f2a-a8ab-4a5c-9d76-154e5bb9ef8a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{34784e10-04e0-444d-bdb0-2479f24045a2}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{34784e10-04e0-444d-bdb0-2479f24045a2}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>
