@@ -24,7 +24,7 @@ public class EventsSoundController : MonoBehaviour
                 OnScroll?.Invoke();
                 _canPlaySounds = false;
             }
-            else
+            else if(normalizedVelocityWithClamp == 0)
             {
                 _canPlaySounds = true;
             }
@@ -40,6 +40,7 @@ public class EventsSoundController : MonoBehaviour
     public void OnScrollEnd()
     {
         isScrolling = false;
+        _canPlaySounds = true;
         Debug.Log($"Release");
     }
 }
