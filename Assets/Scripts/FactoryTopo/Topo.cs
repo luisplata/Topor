@@ -32,6 +32,7 @@ public abstract class Topo : MonoBehaviour
 
     private void ConfigureTeaTime()
     {
+        currentTeaTime = _outOfGround;
         _outOfGround = this.tt().Pause().Add(() =>
         {
             otherTopoOutOfGround = _parent.OtherTopoOutOfGround();
@@ -101,7 +102,7 @@ public abstract class Topo : MonoBehaviour
             {
                 if(direction == Vector2.zero)
                 {
-                    currentTeaTime = _idle;
+                    currentTeaTime = _destroyed;
                     currentTeaTime.Play();
                     t.Break();
                 }
@@ -145,7 +146,7 @@ public abstract class Topo : MonoBehaviour
             animationControllerTopo.PlayEnd();
         }).Add(timeToEnd).Add(() =>
         {
-            currentTeaTime = _idle;
+            currentTeaTime = _destroyed;
             currentTeaTime.Play();
         });
         
