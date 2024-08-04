@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{cc1294fb-f00c-4a34-8bc1-f8fabe934909}">
 		<property name="assetPath">
-			<value>Mx-Banjo_Level1-4-4_bpm135.wav</value>
+			<value>MX/Mx-Banjo_Level1-4-4_bpm135.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
