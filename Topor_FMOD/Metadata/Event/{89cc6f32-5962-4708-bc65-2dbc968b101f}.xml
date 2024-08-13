@@ -36,6 +36,7 @@
 		</relationship>
 		<relationship name="banks">
 			<destination>{d0e35a98-e947-4c73-a4ec-4e3e2bb0ab4a}</destination>
+			<destination>{9dc34bb5-ba81-49eb-9f55-cb30d03d6e25}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{de41ed54-ad1b-44af-896c-2faa4aedf626}">
@@ -122,6 +123,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{4e86743a-ddd2-443a-bf92-7ade89179514}" />
 	<object class="MultiSound" id="{b58508af-dbb3-4f6e-b6d6-d55addb6a989}">
+		<property name="start">
+			<value>22.763041666666666</value>
+		</property>
 		<property name="length">
 			<value>29.341337868480725</value>
 		</property>
@@ -165,7 +169,7 @@
 			<value>-3</value>
 		</property>
 		<property name="name">
-			<value>Audio 2</value>
+			<value>Birds</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{cabd3ce2-5f2b-4273-9e5f-c2a7e1034ece}</destination>
@@ -195,7 +199,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{fe8bb5db-8763-4f1e-9e1b-e74a4062ec85}">
 		<property name="name">
-			<value>Goat</value>
+			<value>Animals</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{1b0b943e-fefc-4599-90d7-8ef2a3b14940}</destination>
@@ -217,7 +221,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{d5a4dc9d-b97d-4e0b-971a-05a7fc2e893e}">
 		<property name="name">
-			<value>Audio 3</value>
+			<value>Wind</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{02a77ed9-3677-4bab-bfc3-eced053b900c}</destination>
