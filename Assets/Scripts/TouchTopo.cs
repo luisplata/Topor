@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class TouchTopo : MonoBehaviour
 {
+    public UnityEvent OnTouchTopo;
     private Vector2 point;
     private Topo currentTopo;
+    private bool _canPlaySounds;
+
     public void OnTouch(InputAction.CallbackContext context)
     {
         //need the events to press and release the button
@@ -16,6 +20,10 @@ public class TouchTopo : MonoBehaviour
         {
             currentTopo = ShotRayToTopo();
             currentTopo?.Touch();
+            if (_canPlaySounds)
+            {
+                OnTouchTopo.Invoke();
+            }
         }
         else
         {
@@ -40,5 +48,10 @@ public class TouchTopo : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void CanPlaySounds(bool canPlay)
+    {
+        _canPlaySounds = canPlay;
     }
 }

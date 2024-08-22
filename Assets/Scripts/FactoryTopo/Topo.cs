@@ -28,9 +28,11 @@ public abstract class Topo : MonoBehaviour
     private TeaTime _idle, _search, _action, _end, _dead, _destroyed, _outOfGround;
     private PointToTopo _parent;
     private bool otherTopoOutOfGround = true;
+    private TeaTime currentTeaTime;
 
     private void ConfigureTeaTime()
     {
+        currentTeaTime = _outOfGround;
         _outOfGround = this.tt().Pause().Add(() =>
         {
             otherTopoOutOfGround = _parent.OtherTopoOutOfGround();
@@ -43,9 +45,22 @@ public abstract class Topo : MonoBehaviour
                 _parent.OutFromGround();
             }
             _parent.SetFree(false);
-        }).Add(timeToOutOfGround).Add(() =>
+        }).Loop(t =>
         {
-            _idle.Play();
+            if (touched)
+            {
+                currentTeaTime = _dead;
+                currentTeaTime.Play();
+                t.Break();
+            }
+            if (t.timeSinceStart >= timeToOutOfGround)
+            {
+                t.Break();
+            }
+        }).Add(() =>
+        {
+            currentTeaTime = _idle;
+            currentTeaTime.Play();
         });
         _idle = this.tt().Pause().Add(() =>
         {
@@ -58,12 +73,14 @@ public abstract class Topo : MonoBehaviour
             _deltaTimeLocal += t.deltaTime;
             if (touched)
             {
-                _dead.Play();
+                currentTeaTime = _dead;
+                currentTeaTime.Play();
                 t.Break();
             }
             else if (_deltaTimeLocal >= timeToInit)
             {
-                _search.Play();
+                currentTeaTime = _search;
+                currentTeaTime.Play();
                 t.Break();
             }
         });
@@ -77,19 +94,22 @@ public abstract class Topo : MonoBehaviour
             _deltaTimeLocal += t.deltaTime;
             if (touched)
             {
-                _dead.Play();
+                currentTeaTime = _dead;
+                currentTeaTime.Play();
                 t.Break();
             }
             else if (_deltaTimeLocal >= timeToSearch)
             {
                 if(direction == Vector2.zero)
                 {
-                    _end.Play();
+                    currentTeaTime = _destroyed;
+                    currentTeaTime.Play();
                     t.Break();
                 }
                 else
                 {
-                    _action.Play();
+                    currentTeaTime = _action;
+                    currentTeaTime.Play();
                     t.Break();
                 }
             }
@@ -104,7 +124,8 @@ public abstract class Topo : MonoBehaviour
             _deltaTimeLocal += t.deltaTime;
             if (touched)
             {
-                _dead.Play();
+                currentTeaTime = _dead;
+                currentTeaTime.Play();
                 t.Break();
             }
             else if(_deltaTimeLocal >= timeToBite && biteCount > 0)
@@ -114,7 +135,8 @@ public abstract class Topo : MonoBehaviour
             }
             else if (_deltaTimeLocal >= timeToAction)
             {
-                _end.Play();
+                currentTeaTime = _end;
+                currentTeaTime.Play();
                 t.Break();
             }
         });
@@ -124,7 +146,8 @@ public abstract class Topo : MonoBehaviour
             animationControllerTopo.PlayEnd();
         }).Add(timeToEnd).Add(() =>
         {
-            _destroyed.Play();
+            currentTeaTime = _destroyed;
+            currentTeaTime.Play();
         });
         
         _dead = this.tt().Pause().Add(() =>
@@ -132,7 +155,8 @@ public abstract class Topo : MonoBehaviour
             animationControllerTopo.PlayDead();
         }).Add(timeToDead).Add(() =>
         {
-            _destroyed.Play();
+            currentTeaTime = _destroyed;
+            currentTeaTime.Play();
         });
         
         _destroyed = this.tt().Pause().Add(() =>
@@ -151,6 +175,17 @@ public abstract class Topo : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         ConfigureTeaTime();
         _parent = parent;
+        ServiceLocator.Instance.GetService<IFloatingPause>().OnPause += isPause =>
+        {
+            if (isPause)
+            {
+                currentTeaTime.Pause();
+            }
+            else
+            {
+                currentTeaTime.Play();
+            }
+        };
     }
 
     private void FindFruits()
