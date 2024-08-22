@@ -6,37 +6,60 @@ public class GameLoop : MonoBehaviour, IGameLoop
     [SerializeField] private FruitsMono fruitsMono;
     [SerializeField] private float timeAfterEnd;
     [SerializeField] private int nextScene;
+    [SerializeField] private TouchTopo touchTopo;
     private TeaTime _idle, _ready, _game, _condition, _end;
+    private TeaTime _currentTeaTime;
 
     void Start()
     {
         ConfigureButtons();
         ConfigureGameLoop();
-        _idle.Play();
+        _currentTeaTime = _idle;
+        _currentTeaTime.Play();
+        //suscribe to the event of the pause button
+        ServiceLocator.Instance.GetService<IFloatingPause>().OnPause += isPause =>
+        {
+            if (isPause)
+            {
+                touchTopo.CanPlaySounds(!isPause);
+                _currentTeaTime.Pause();
+            }
+            else
+            {
+                _currentTeaTime.Play();
+                touchTopo.CanPlaySounds(!isPause);
+            }
+            ServiceLocator.Instance.GetService<ITimeLineService>().IsPaused(isPause);
+        };
     }
 
     private void ConfigureGameLoop()
     {
         _idle = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(false);
             ServiceLocator.Instance.GetService<IUiControllerService>().ShowAnimationStart();
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().AnimationStartGame).Add(() =>
         {
             ServiceLocator.Instance.GetService<IUiControllerService>().ShowStartPanel();
         }).Add(() =>
         {
-            _ready.Play();
+            _currentTeaTime = _ready;
+            _currentTeaTime.Play();
         });
         
         _ready = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(false);
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().SelectedStartGame).Add(() =>
         {
-            _game.Play();
+            _currentTeaTime = _game;
+            _currentTeaTime.Play();
         });
         
         _game = this.tt().Pause().Add(() =>
         {
+            touchTopo.CanPlaySounds(true);
             ServiceLocator.Instance.GetService<IUiControllerService>().HideStartPanel();
             fruitsMono.StartToSpawn();
         }).Wait(()=>fruitsMono.Finished).Add(() =>
@@ -47,14 +70,17 @@ public class GameLoop : MonoBehaviour, IGameLoop
             ServiceLocator.Instance.GetService<ITimeLineService>().StartCount();
         }).Add(() =>
         {
-            _condition.Play();
+            _currentTeaTime = _condition;
+            _currentTeaTime.Play();
         });
         
         _condition = this.tt().Pause().Add(() =>
         {
         }).Wait(()=>ServiceLocator.Instance.GetService<ITimeLineService>().GameIsEnded || fruitsMono.AllFruitAreDead).Add(() =>
         {
-            _end.Play();
+            _currentTeaTime = _end;
+            _currentTeaTime.Play();
+            touchTopo.CanPlaySounds(false);
         });
         
         _end = this.tt().Pause().Add(() =>
@@ -77,7 +103,7 @@ public class GameLoop : MonoBehaviour, IGameLoop
             ServiceLocator.Instance.GetService<IUiControllerService>().ShowEndGameAnimation(fruitsMono.AllFruitAreDead);
         }).Wait(()=>ServiceLocator.Instance.GetService<IUiControllerService>().AnimationStartGame).Add(() =>
         {
-            SceneManager.LoadScene(nextScene);
+            SceneManager.LoadScene(nextScene + 1);
         });
     }
 
