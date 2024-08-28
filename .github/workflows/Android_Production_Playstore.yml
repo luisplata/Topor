@@ -66,6 +66,7 @@ jobs:
           packageName: com.Bellseboss.Topor
           releaseFiles: build/Android/Android.aab
           track: beta
+          changesNotSentForReview: true
       - name: Cleanup to avoid storage limit
         if: always()
         uses: geekyeggo/delete-artifact@v1
