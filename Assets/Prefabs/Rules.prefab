@@ -39,6 +39,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2326418078224727626}
+  - {fileID: 9141811961501967322}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1873001695743292519
@@ -54,6 +55,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnTouchTopo:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5971352948664051354}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTouchScreen:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7158685717862592285}
@@ -199,6 +215,7 @@ MonoBehaviour:
   fruitsMono: {fileID: 3653209907000186481}
   timeAfterEnd: 0
   nextScene: 0
+  touchTopo: {fileID: 1873001695743292519}
 --- !u!114 &8268240213348791189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,10 +306,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalLight: {fileID: 0}
-  minColor: {r: 1, g: 0.8784314, b: 0.61960787, a: 1}
+  minColor: {r: 1, g: 0.7490196, b: 0.4862745, a: 1}
   maxColor: {r: 1, g: 1, b: 1, a: 1}
   pointA: {fileID: 0}
   pointB: {fileID: 0}
+--- !u!1 &3074294356365162017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9141811961501967322}
+  - component: {fileID: 5971352948664051354}
+  m_Layer: 0
+  m_Name: hammer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9141811961501967322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074294356365162017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6098635272756594008}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5971352948664051354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074294356365162017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 710138431
+      Data2: 1280639195
+      Data3: -1446084418
+      Data4: -1157427776
+    Path: event:/SFX/Characters/Moles/sfx_hammerHitsGround
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &6383448389606539564
 GameObject:
   m_ObjectHideFlags: 0

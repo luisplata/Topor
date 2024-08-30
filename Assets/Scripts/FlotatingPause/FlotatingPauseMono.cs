@@ -7,6 +7,11 @@ public class FlotatingPauseMono : MonoBehaviour, IFloatingPause
     private static readonly int Open = Animator.StringToHash("Open");
     public event Action<bool> OnPause;
 
+    private void Awake()
+    {
+        ServiceLocator.Instance.RegisterService<IFloatingPause>(this);
+    }
+
     private void Start()
     {
         if (FindObjectsOfType<FlotatingPauseMono>() != null && FindObjectsOfType<FlotatingPauseMono>().Length > 1)
@@ -14,8 +19,6 @@ public class FlotatingPauseMono : MonoBehaviour, IFloatingPause
             Destroy(gameObject);
             return;
         }
-
-        ServiceLocator.Instance.RegisterService<IFloatingPause>(this);
         DontDestroyOnLoad(gameObject);
     }
 
