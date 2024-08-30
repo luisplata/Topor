@@ -20,7 +20,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ${{ matrix.projectPath }}/Library
-          key:
+          key: 
             Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
             hashFiles(matrix.projectPath) }}
           restore-keys: |
@@ -38,13 +38,12 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          androidAppBundle: true
-          androidKeystoreName: user
+          androidExportType: 'androidAppBundle'
+          androidKeystoreName: user.keystore
           androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
           androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
           androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
-          androidTargetSdkVersion: AndroidApiLevel33
       - name: List files
         run: ls -R build/Android
       - uses: actions/upload-artifact@v4
@@ -56,8 +55,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artefact
-        uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: build-Android
           path: build/Android
@@ -65,10 +63,10 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          packageName: com.bellseboss.topor
+          packageName: com.Bellseboss.Topor
           releaseFiles: build/Android/Android.aab
-          status: draft
-          track: production
+          track: beta
+          changesNotSentForReview: true
       - name: Cleanup to avoid storage limit
         if: always()
         uses: geekyeggo/delete-artifact@v1
