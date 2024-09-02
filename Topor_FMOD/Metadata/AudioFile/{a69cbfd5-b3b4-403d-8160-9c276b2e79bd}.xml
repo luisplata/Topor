@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{a69cbfd5-b3b4-403d-8160-9c276b2e79bd}">
+		<property name="assetPath">
+			<value>SFX/Characters/Moles/HammerHitsGround/sfx_hammerHitsGround_5.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.56887500000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d31014da-c88d-4aa4-b565-71bf9b147e52}</destination>
+		</relationship>
+	</object>
+</objects>

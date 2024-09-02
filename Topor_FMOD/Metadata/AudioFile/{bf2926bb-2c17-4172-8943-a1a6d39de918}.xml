@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{bf2926bb-2c17-4172-8943-a1a6d39de918}">
+		<property name="assetPath">
+			<value>SFX/Characters/Moles/TopoSquish/sfx_topoSquish_1_Voice.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.58733333333333337</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d31014da-c88d-4aa4-b565-71bf9b147e52}</destination>
+		</relationship>
+	</object>
+</objects>
