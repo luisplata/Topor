@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{1148e6c8-bb0f-4961-b4e7-50a411683e57}">
+		<property name="assetPath">
+			<value>SFX/Characters/Moles/TopoAppears/sfx_topoAppear_4_Rubble.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.66239583333333329</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d31014da-c88d-4aa4-b565-71bf9b147e52}</destination>
+		</relationship>
+	</object>
+</objects>

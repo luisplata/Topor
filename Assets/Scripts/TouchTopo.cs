@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class TouchTopo : MonoBehaviour
 {
     public UnityEvent OnTouchTopo;
+    public UnityEvent OnTouchScreen;
     private Vector2 point;
     private Topo currentTopo;
     private bool _canPlaySounds;
@@ -19,15 +20,21 @@ public class TouchTopo : MonoBehaviour
         else if (context.phase == InputActionPhase.Canceled)
         {
             currentTopo = ShotRayToTopo();
-            currentTopo?.Touch();
-            if (_canPlaySounds)
+            if (currentTopo != null)
             {
-                OnTouchTopo.Invoke();
+                currentTopo?.Touch();
+                if (_canPlaySounds)
+                {
+                    OnTouchTopo.Invoke();
+                }
             }
-        }
-        else
-        {
-            
+            else
+            {
+                if (_canPlaySounds)
+                {
+                    OnTouchScreen?.Invoke();
+                }
+            }
         }
     }
     
