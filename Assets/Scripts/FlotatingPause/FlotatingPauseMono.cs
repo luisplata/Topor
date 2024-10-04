@@ -14,7 +14,6 @@ public class FlotatingPauseMono : MonoBehaviour, IFloatingPause
             Destroy(gameObject);
             return;
         }
-
         ServiceLocator.Instance.RegisterService<IFloatingPause>(this);
         DontDestroyOnLoad(gameObject);
     }
