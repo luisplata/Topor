@@ -29,6 +29,15 @@ jobs:
           ls -la
           ls -la Assets/PlayFabEditorExtensions/Editor/Resources/
 
+      - name: Check permissions of directories and files
+        run: |
+          echo "Checking permissions for Assets/PlayFabEditorExtensions/Editor/Resources/"
+          ls -la Assets/PlayFabEditorExtensions/Editor/Resources/
+          echo "Changing permissions to ensure write access"
+          chmod -R u+w Assets/PlayFabEditorExtensions/Editor/Resources/
+          echo "Permissions after change:"
+          ls -la Assets/PlayFabEditorExtensions/Editor/Resources/
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
