@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeOfGame: 60
   steps:
-  - weight: 30
+  - stepIdentifier: {fileID: 0}
+    weight: 30
     toposToSpawn: []
-  - weight: 25
+    timeLineStep: {fileID: 0}
+  - stepIdentifier: {fileID: 0}
+    weight: 25
     toposToSpawn: []
-  - weight: 5
+    timeLineStep: {fileID: 0}
+  - stepIdentifier: {fileID: 0}
+    weight: 5
     toposToSpawn: []
+    timeLineStep: {fileID: 0}
   levelIndex: 1

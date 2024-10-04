@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +15,11 @@ public class LevelStartController : ScriptableObject
         foreach (var stepSpawnRatioEnemy in steps.SelectMany(step => step.toposToSpawn))
         {
             stepSpawnRatioEnemy.deltaSpawn = 0;
+        }
+
+        foreach (var step in steps.Where(step => step.timeLineStep != null))
+        {
+            step.Configure();
         }
     }
 
