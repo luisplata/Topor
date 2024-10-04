@@ -272,8 +272,9 @@ GameObject:
   - component: {fileID: 93951058}
   - component: {fileID: 93951060}
   - component: {fileID: 93951059}
+  - component: {fileID: 93951061}
   m_Layer: 5
-  m_Name: TopoDer
+  m_Name: TopoDer(Topina)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,7 +297,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 182.59999, y: 354.09985}
-  m_SizeDelta: {x: 88, y: 116}
+  m_SizeDelta: {x: 200.4604, y: 217.7034}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &93951059
 MonoBehaviour:
@@ -318,7 +319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d05a4ae33d54be499f79cc2f0fab379, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ce50391604adc647a2fc78391d909da, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -336,6 +337,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93951057}
   m_CullTransparentMesh: 1
+--- !u!95 &93951061
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93951057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5d10ca341693d204bbac44a029bfca4f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &123119458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,8 +1207,9 @@ GameObject:
   - component: {fileID: 692498657}
   - component: {fileID: 692498659}
   - component: {fileID: 692498658}
+  - component: {fileID: 692498660}
   m_Layer: 5
-  m_Name: TopoIzq
+  m_Name: TopoIzq(topo)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1208,8 +1231,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -248.1, y: 193.70001}
-  m_SizeDelta: {x: 88, y: 116}
+  m_AnchoredPosition: {x: -246.3035, y: 193.70001}
+  m_SizeDelta: {x: 151.2368, y: 171.3324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &692498658
 MonoBehaviour:
@@ -1231,7 +1254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 00f96dc8bd6c10341850317b8155b1e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 747d173ff29551e4fbe885c06a4274ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1249,6 +1272,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692498656}
   m_CullTransparentMesh: 1
+--- !u!95 &692498660
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692498656}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 46d7205a9bee78449a79f6023e8c7ba1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &743792412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,18 +2206,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479277498}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 278297695}
         m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
         m_MethodName: Play
@@ -2916,6 +2948,7 @@ GameObject:
   - component: {fileID: 1662409779}
   - component: {fileID: 1662409778}
   - component: {fileID: 1662409780}
+  - component: {fileID: 1662409781}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -3003,6 +3036,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1662409781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662409776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae5a9fbac321476895ce38d3343fd34d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 479277498}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1889430773
 GameObject:
   m_ObjectHideFlags: 0
@@ -3260,8 +3320,6 @@ RectTransform:
   - {fileID: 1969172788}
   - {fileID: 808284756}
   - {fileID: 1054694538}
-  - {fileID: 1662409777}
-  - {fileID: 976643421}
   - {fileID: 352825289}
   - {fileID: 93951058}
   - {fileID: 1035730344}
@@ -3270,6 +3328,8 @@ RectTransform:
   - {fileID: 923405303}
   - {fileID: 1325866329}
   - {fileID: 1889430774}
+  - {fileID: 1662409777}
+  - {fileID: 976643421}
   - {fileID: 743792413}
   m_Father: {fileID: 1278768785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
