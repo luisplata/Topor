@@ -34,7 +34,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     {
         try
         {
-            //_levelStartController = ServiceLocator.Instance.GetService<ISaveDataToLevels>().GetLevelStartController();
+            _levelStartController = ServiceLocator.Instance.GetService<ISaveDataToLevels>().GetLevelStartController();
         }
         catch (Exception e)
         {
@@ -58,6 +58,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         {
             var timeOfStep = (float)step.weight / totalWeight * totalTime;
             step.timeOfStep = timeOfStep;
+            step.Configure();
             _steps.Add(step);
         }
 
