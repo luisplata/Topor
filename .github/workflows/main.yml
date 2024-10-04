@@ -26,6 +26,9 @@ jobs:
         with:
           path: Library
           key: Library
+      # Clean up
+      - name: Clean up
+        uses: jlumbroso/free-disk-space@v1.2.0
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v4
