@@ -46,6 +46,7 @@ public class StepOfGame
 
     public void Configure()
     {
+        if(timeLineStep == null) return;
         SetTimeLine(Object.Instantiate(timeLineStep));
     }
 }
