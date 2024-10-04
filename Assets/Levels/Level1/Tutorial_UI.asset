@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88638893ee7642f38b0094652b1eb1f0, type: 3}
-  m_Name: TimeLineStep 15
+  m_Script: {fileID: 11500000, guid: 4a7186210fbd4218b05ce8ad8d9156bb, type: 3}
+  m_Name: Tutorial_UI
   m_EditorClassIdentifier: 
-  time: 16
-  topo: a
-  position: -1
+  Id: c9374262-6e51-4122-9aa8-00b416c24d23
   IsDone: 0
