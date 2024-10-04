@@ -21,6 +21,14 @@ jobs:
         targetPlatform:
           - Android # Build an Android player.
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+  
+      - name: Display directory structure
+        run: |
+          ls -la
+          ls -la Assets/PlayFabEditorExtensions/Editor/Resources/
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
