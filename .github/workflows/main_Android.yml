@@ -23,6 +23,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+
+      - name: Create necessary directories
+        run: mkdir -p /root/.cache/unity3d
   
       - name: Display directory structure
         run: |
