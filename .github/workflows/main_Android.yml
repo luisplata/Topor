@@ -24,14 +24,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Create necessary directories
-        run: mkdir -p $GITHUB_WORKSPACE/.cache/unity3d
-  
-      - name: Display directory structure
-        run: |
-          ls -la
-          ls -la Assets/PlayFabEditorExtensions/Editor/Resources/
-
       - name: Check and change permissions of directories and files
         run: |
           echo "Checking permissions for Assets/PlayFabEditorExtensions/Editor/Resources/"
