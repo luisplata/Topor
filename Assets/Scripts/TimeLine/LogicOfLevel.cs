@@ -9,12 +9,13 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     [SerializeField] private FactoryOfTopos factoryOfTopos;
     [SerializeField] private Map map;
     [SerializeField] private TimeLightsSystem timeLightsSystem;
-    private float deltaTimeLocal, _deltaTimeGlobal;
+    private LevelStartController _levelStartControllerInstance;
+    [SerializeField] private float deltaTimeLocal, _deltaTimeGlobal, _deltaTimeToStartStep;
     private float totalTime;
     private bool isConfigured, _isPaused;
-    private List<StepInGame> _steps;
+    private List<StepOfGame> _steps;
     private int currentStepIndex;
-    private StepInGame currentStepTime;
+    private StepOfGame currentStepTime;
     private List<Topo> _topos;
 
     public bool GameIsEnded { get; private set; }
@@ -23,7 +24,7 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     {
         ServiceLocator.Instance.RegisterService<ITimeLineService>(this);
     }
-    
+
     private void OnDestroy()
     {
         ServiceLocator.Instance.UnregisterService<ITimeLineService>();
@@ -34,11 +35,15 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         try
         {
             _levelStartController = ServiceLocator.Instance.GetService<ISaveDataToLevels>().GetLevelStartController();
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             Debug.Log($"Level Load from local storage failed: {e.Message}");
         }
-        _steps = new List<StepInGame>();
+
+        _levelStartControllerInstance = Instantiate(_levelStartController);
+
+        _steps = new List<StepOfGame>();
         _topos = new List<Topo>();
         timeLightsSystem.Configure(this);
     }
@@ -46,19 +51,17 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
     public void Configure(IGameLoop gameLoop)
     {
         //calculate how log the level will be
-        totalTime = _levelStartController.TimeOfGame;
-        var totalWeight = _levelStartController.Steps.Sum(step => step.weight);
+        totalTime = _levelStartControllerInstance.TimeOfGame;
+        var totalWeight = _levelStartControllerInstance.Steps.Sum(step => step.weight);
 
-        foreach (var step in _levelStartController.Steps)
+        foreach (var step in _levelStartControllerInstance.Steps)
         {
             var timeOfStep = (float)step.weight / totalWeight * totalTime;
-            _steps.Add(new StepInGame
-            {
-                timeOfStep = timeOfStep,
-                toposToSpawn = step.toposToSpawn
-            });
+            step.timeOfStep = timeOfStep;
+            step.Configure();
+            _steps.Add(step);
         }
-        
+
         currentStepTime = _steps[currentStepIndex];
     }
 
@@ -86,19 +89,55 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         if (!isConfigured || GameIsEnded || _isPaused) return;
         deltaTimeLocal += Time.deltaTime;
         _deltaTimeGlobal += Time.deltaTime;
-        foreach (var spawn in currentStepTime.toposToSpawn)
+        _deltaTimeToStartStep += Time.deltaTime;
+
+        if (!currentStepTime.HasTimeLine())
         {
-            spawn.deltaSpawn += Time.deltaTime;
-            if (spawn.deltaSpawn >= 60 / spawn.countOfEnemyToSpawnOfMin)
+            foreach (var spawn in currentStepTime.toposToSpawn)
             {
-                spawn.deltaSpawn = 0;
-                //Debug.Log($"Spawn {spawn.toposToSpawn}");
-                var topo = factoryOfTopos.SpawnTopo(spawn.toposToSpawn, map.GetPointToTopoByPosition(map.GetRandomPositionToTopo()));
-                topo.StartTopo();
-                _topos.Add(topo);
+                spawn.deltaSpawn += Time.deltaTime;
+                if (spawn.deltaSpawn >= (60 / spawn.countOfEnemyToSpawnOfMin))
+                {
+                    spawn.deltaSpawn = 0;
+                    var topo = factoryOfTopos.SpawnTopo(spawn.toposToSpawn,
+                        map.GetPointToTopoByPosition(map.GetRandomPositionToTopo()));
+                    topo.StartTopo();
+                    _topos.Add(topo);
+                }
             }
         }
-        if (deltaTimeLocal >= currentStepTime.timeOfStep)
+        else
+        {
+            foreach (var timeLineStep in currentStepTime.GetTimeLine().GetSteps())
+            {
+                if (_deltaTimeToStartStep >= timeLineStep.GetTime() && !timeLineStep.IsDone)
+                {
+                    var topo = factoryOfTopos.SpawnTopo(timeLineStep.GetTopo(),
+                        map.GetPointToTopoByPosition(timeLineStep.Position));
+                    topo.StartTopo();
+                    _topos.Add(topo);
+                    timeLineStep.IsDone = true;
+                    break;
+                }
+            }
+            //check if all steps are done
+            var isAllStepsDone = true;
+            foreach (var timeLineStep in currentStepTime.GetTimeLine().GetSteps())
+            {
+                if (!timeLineStep.IsDone)
+                {
+                    isAllStepsDone = false;
+                    break;
+                }
+            }
+            
+            if (isAllStepsDone)
+            {
+                currentStepTime.stepIdentifier.IsDone = true;
+            }
+        }
+
+        if (deltaTimeLocal >= currentStepTime.timeOfStep && currentStepTime.stepIdentifier.IsDone)
         {
             deltaTimeLocal = 0;
             currentStepIndex++;
@@ -107,8 +146,11 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
                 GameIsEnded = true;
                 return;
             }
+
             currentStepTime = _steps[currentStepIndex];
+            _deltaTimeToStartStep = 0;
         }
+
         timeLightsSystem.SetInterval(_deltaTimeGlobal / totalTime);
     }
 }

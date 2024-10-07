@@ -15,3 +15,4 @@ MonoBehaviour:
   time: 21
   topo: a
   position: -1
+  IsDone: 0

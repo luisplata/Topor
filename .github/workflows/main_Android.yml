@@ -21,6 +21,15 @@ jobs:
         targetPlatform:
           - Android # Build an Android player.
     steps:
+      - name: Create necessary directories
+        run: mkdir -p $GITHUB_WORKSPACE/.cache/unity3d
+
+      - name: Set UNITY_CACHE_DIR environment variable
+        run: echo "UNITY_CACHE_DIR=$GITHUB_WORKSPACE/.cache/unity3d" >> $GITHUB_ENV
+
+      - name: Check out repository
+        uses: actions/checkout@v2
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0

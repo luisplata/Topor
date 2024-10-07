@@ -9,16 +9,12 @@ public class FlotatingPauseMono : MonoBehaviour, IFloatingPause
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService<IFloatingPause>(this);
-    }
-
-    private void Start()
-    {
         if (FindObjectsOfType<FlotatingPauseMono>() != null && FindObjectsOfType<FlotatingPauseMono>().Length > 1)
         {
             Destroy(gameObject);
             return;
         }
+        ServiceLocator.Instance.RegisterService<IFloatingPause>(this);
         DontDestroyOnLoad(gameObject);
     }
 

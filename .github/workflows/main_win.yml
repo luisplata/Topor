@@ -26,7 +26,7 @@ jobs:
         with:
           path: Library
           key: Library
-      # Clean up
+      # Cleanup
       - name: Clean up
         uses: jlumbroso/free-disk-space@v1.2.0
       # Build
