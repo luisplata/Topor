@@ -14,22 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeOfGame: 45
   steps:
-  - weight: 33
+  - stepIdentifier: {fileID: 0}
+    weight: 33
     toposToSpawn:
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 30
-      deltaSpawn: 0.95822024
-  - weight: 35
+      deltaSpawn: 0
+    timeLineStep: {fileID: 0}
+  - stepIdentifier: {fileID: 0}
+    weight: 35
     toposToSpawn:
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 35
-      deltaSpawn: 1.167665
-  - weight: 42
+      deltaSpawn: 0
+    timeLineStep: {fileID: 0}
+  - stepIdentifier: {fileID: 0}
+    weight: 42
     toposToSpawn:
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 30
-      deltaSpawn: 1.154202
+      deltaSpawn: 0
     - toposToSpawn: a
       countOfEnemyToSpawnOfMin: 10
-      deltaSpawn: 1.350988
+      deltaSpawn: 0
+    timeLineStep: {fileID: 0}
   levelIndex: 1
+  canPlayCinematic: 1

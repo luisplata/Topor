@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
-public class TimeLineMono : MonoBehaviour, ITimeLineService
+[Obsolete("New class is LogicOfLevel.cs to control the logic")]
+public class TimeLineMono : MonoBehaviour
 {
     [SerializeField] private TimeLine timeLine;
     [SerializeField] private FactoryOfTopos factoryOfTopos;
@@ -13,7 +15,7 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
 
     private void Start()
     {
-        ServiceLocator.Instance.RegisterService<ITimeLineService>(this);
+        //ServiceLocator.Instance.RegisterService<ITimeLineService>(this);
     }
 
     private void OnDestroy()
@@ -91,13 +93,4 @@ public class TimeLineMono : MonoBehaviour, ITimeLineService
     {
         _isPaused = isPaused;
     }
-}
-
-public interface ITimeLineService
-{
-    void Configure(IGameLoop gameLoop);
-    void StartCount();
-    bool GameIsEnded { get; }
-    void StopGame();
-    void IsPaused(bool isPaused);
 }

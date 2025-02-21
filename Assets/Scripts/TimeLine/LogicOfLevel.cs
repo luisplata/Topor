@@ -84,6 +84,11 @@ public class LogicOfLevel : MonoBehaviour, ITimeLineService
         _isPaused = isPaused;
     }
 
+    public LevelStartController GetConfigOfLevel()
+    {
+        return _levelStartController;
+    }
+
     private void Update()
     {
         if (!isConfigured || GameIsEnded || _isPaused) return;

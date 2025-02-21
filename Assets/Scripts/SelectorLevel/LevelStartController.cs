@@ -9,6 +9,7 @@ public class LevelStartController : ScriptableObject
     [SerializeField] private int timeOfGame;
     [SerializeField] private List<StepOfGame> steps;
     [SerializeField] private int levelIndex;
+    [SerializeField] private bool canPlayCinematic;
 
     public void Awake()
     {
@@ -26,4 +27,6 @@ public class LevelStartController : ScriptableObject
     public int TimeOfGame => timeOfGame;
     public List<StepOfGame> Steps => steps;
     public int LevelIndex => levelIndex + 3;
+
+    public bool CanPlayCinematic => canPlayCinematic;
 }

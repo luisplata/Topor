@@ -36,3 +36,4 @@ MonoBehaviour:
       deltaSpawn: 0
     timeLineStep: {fileID: 0}
   levelIndex: 1
+  canPlayCinematic: 1
