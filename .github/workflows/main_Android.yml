@@ -28,9 +28,6 @@ jobs:
       - name: Clean Unity Cache
         run: rm -rf Library Temp obj
       
-      - name: Clean up
-        uses: jlumbroso/free-disk-space@v1.2.0
-        
       - uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -45,6 +42,9 @@ jobs:
         with:
           name: build-Android
           path: build/Android
+          
+      - name: Clean up
+        uses: jlumbroso/free-disk-space@v1.2.0
   deploy:
     name: Butler Push to Itch
     runs-on: ubuntu-latest
