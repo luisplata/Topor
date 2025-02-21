@@ -17,17 +17,30 @@ jobs:
         # projectPath:
           # - test-project
         unityVersion:
-          - 2022.3.22f1
+          - 2022.3.56f1
         targetPlatform:
           - Android # Build an Android player.
     steps:
      
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Clean up
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+          
+      - uses: actions/cache@v3
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
+            Library-
+            
+      - if: matrix.targetPlatform == 'Android'
         uses: jlumbroso/free-disk-space@v1.2.0
-        
+          
       - uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -42,6 +55,9 @@ jobs:
         with:
           name: build-Android
           path: build/Android
+          
+      - name: Clean up
+        uses: jlumbroso/free-disk-space@v1.2.0
   deploy:
     name: Butler Push to Itch
     runs-on: ubuntu-latest
