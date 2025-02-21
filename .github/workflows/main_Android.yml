@@ -24,7 +24,10 @@ jobs:
      
       - name: Check out repository
         uses: actions/checkout@v4
-
+      
+      - name: Clean Unity Cache
+        run: rm -rf Library Temp obj
+      
       - name: Clean up
         uses: jlumbroso/free-disk-space@v1.2.0
         
