@@ -1,0 +1,7 @@
+OF_0000_Botón-hundido 479 x 202
+OF_0001_Botón 479 x 202
+OF_0002_Palanca 54 x 76
+OF_0003_Zurco 490 x 29
+OF_0004_Chulo 99 x 104
+OF_0005_Marco-chulo 144 x 128
+OF_0006_Marco-general 748 x 1324
