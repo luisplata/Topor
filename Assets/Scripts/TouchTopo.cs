@@ -22,6 +22,7 @@ public class TouchTopo : MonoBehaviour
             currentTopo = ShotRayToTopo();
             if (currentTopo != null)
             {
+                ServiceLocator.Instance.GetService<IAnimationBehaviour>().PlaySuccessHit();
                 currentTopo?.Touch();
                 if (_canPlaySounds)
                 {
@@ -30,6 +31,7 @@ public class TouchTopo : MonoBehaviour
             }
             else
             {
+                ServiceLocator.Instance.GetService<IAnimationBehaviour>().PlayFailHit();
                 if (_canPlaySounds)
                 {
                     OnTouchScreen?.Invoke();

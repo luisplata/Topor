@@ -21,10 +21,10 @@ public abstract class Topo : MonoBehaviour
     public Action OnTopoDie;
     private Fruit _fruitSelected;
     private Vector2 direction;
-    
-    public float TotalTime => timeToInit + timeToSearch + timeToAction + timeToEnd + timeToDead; 
+
+    public float TotalTime => timeToInit + timeToSearch + timeToAction + timeToEnd + timeToDead;
     public string Id => id;
-    
+
     private TeaTime _idle, _search, _action, _end, _dead, _destroyed, _outOfGround;
     private PointToTopo _parent;
     private bool otherTopoOutOfGround = true;
@@ -36,7 +36,7 @@ public abstract class Topo : MonoBehaviour
         _outOfGround = this.tt().Pause().Add(() =>
         {
             otherTopoOutOfGround = _parent.OtherTopoOutOfGround();
-            if(otherTopoOutOfGround)
+            if (otherTopoOutOfGround)
             {
                 timeToOutOfGround = 0;
             }
@@ -44,6 +44,7 @@ public abstract class Topo : MonoBehaviour
             {
                 _parent.OutFromGround();
             }
+
             _parent.SetFree(false);
         }).Loop(t =>
         {
@@ -53,6 +54,7 @@ public abstract class Topo : MonoBehaviour
                 currentTeaTime.Play();
                 t.Break();
             }
+
             if (t.timeSinceStart >= timeToOutOfGround)
             {
                 t.Break();
@@ -84,7 +86,7 @@ public abstract class Topo : MonoBehaviour
                 t.Break();
             }
         });
-        
+
         _search = this.tt().Pause().Add(() =>
         {
             _deltaTimeLocal = 0;
@@ -100,7 +102,7 @@ public abstract class Topo : MonoBehaviour
             }
             else if (_deltaTimeLocal >= timeToSearch)
             {
-                if(direction == Vector2.zero)
+                if (direction == Vector2.zero)
                 {
                     currentTeaTime = _destroyed;
                     currentTeaTime.Play();
@@ -128,10 +130,11 @@ public abstract class Topo : MonoBehaviour
                 currentTeaTime.Play();
                 t.Break();
             }
-            else if(_deltaTimeLocal >= timeToBite && biteCount > 0)
+            else if (_deltaTimeLocal >= timeToBite && biteCount > 0)
             {
                 _fruitSelected?.Bite(damage);
                 biteCount--;
+                ServiceLocator.Instance.GetService<IAnimationBehaviour>().PlayNegativeFeedback();
             }
             else if (_deltaTimeLocal >= timeToAction)
             {
@@ -140,25 +143,19 @@ public abstract class Topo : MonoBehaviour
                 t.Break();
             }
         });
-        
-        _end = this.tt().Pause().Add(() =>
-        {
-            animationControllerTopo.PlayEnd();
-        }).Add(timeToEnd).Add(() =>
+
+        _end = this.tt().Pause().Add(() => { animationControllerTopo.PlayEnd(); }).Add(timeToEnd).Add(() =>
         {
             currentTeaTime = _destroyed;
             currentTeaTime.Play();
         });
-        
-        _dead = this.tt().Pause().Add(() =>
-        {
-            animationControllerTopo.PlayDead();
-        }).Add(timeToDead).Add(() =>
+
+        _dead = this.tt().Pause().Add(() => { animationControllerTopo.PlayDead(); }).Add(timeToDead).Add(() =>
         {
             currentTeaTime = _destroyed;
             currentTeaTime.Play();
         });
-        
+
         _destroyed = this.tt().Pause().Add(() =>
         {
             _parent.SetFree(true);
@@ -190,8 +187,8 @@ public abstract class Topo : MonoBehaviour
 
     private void FindFruits()
     {
-        FruitToAttack top = new (), bottom = new (), left = new (), right = new();
-        
+        FruitToAttack top = new(), bottom = new(), left = new(), right = new();
+
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.up * distanceToSearch);
         foreach (var raycastHit2D in hit)
         {
@@ -202,7 +199,7 @@ public abstract class Topo : MonoBehaviour
                 break;
             }
         }
-        
+
         //shot down
         hit = Physics2D.RaycastAll(transform.position, Vector2.down * distanceToSearch);
         foreach (var raycastHit2D in hit)
@@ -214,7 +211,7 @@ public abstract class Topo : MonoBehaviour
                 break;
             }
         }
-        
+
         //shot left
         hit = Physics2D.RaycastAll(transform.position, Vector2.left * distanceToSearch);
         foreach (var raycastHit2D in hit)
@@ -226,7 +223,7 @@ public abstract class Topo : MonoBehaviour
                 break;
             }
         }
-        
+
         //shot right
         hit = Physics2D.RaycastAll(transform.position, Vector2.right * distanceToSearch);
         foreach (var raycastHit2D in hit)
@@ -238,21 +235,22 @@ public abstract class Topo : MonoBehaviour
                 break;
             }
         }
-        
+
         //get random fruit to attack
-        var fruits = new[] {top, bottom, left, right};
+        var fruits = new[] { top, bottom, left, right };
         //filter nulls
         fruits = Array.FindAll(fruits, fruit => fruit.fruit != null && fruit.fruit.AreDead == false);
         if (fruits.Length == 0)
         {
-            Debug.Log("No fruits to attack");
+            //Debug.Log("No fruits to attack");
             return;
         }
+
         var fruitToAttack = fruits[UnityEngine.Random.Range(0, fruits.Length)];
         direction = fruitToAttack.direction;
         _fruitSelected = fruitToAttack.fruit;
     }
-    
+
 
     public void Touch()
     {
